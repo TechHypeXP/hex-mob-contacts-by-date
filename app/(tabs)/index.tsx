@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import { View, StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native'; // Import Platform
 import { ContactList } from '@/components/ContactList';
 import { SearchBar } from '@/components/SearchBar';
 import { FilterBar } from '@/components/FilterBar';
@@ -96,8 +96,8 @@ export default function ContactsTab() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-      <View style={styles.content}>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} translucent={true} />
+      <View style={[styles.content, { paddingTop: StatusBar.currentHeight || 0 }]}>
         <SearchBar
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -106,23 +106,14 @@ export default function ContactsTab() {
         />
         
         <FilterBar
-          filters={filters}
-          stats={stats}
-          lastSyncTime={lastSyncTime}
           onFilterPress={() => setShowFilterModal(true)}
           onSourceFilter={handleSourceFilter}
+          onAdvancedSearchPress={() => { /* TODO: Implement advanced search modal */ }}
         />
         
         <ContactList
-          contacts={contacts}
-          hasMore={hasMore}
           onContactPress={handleContactPress}
           onFavoriteToggle={handleFavoriteToggle}
-          onRefresh={handleRefresh}
-          onLoadMore={loadMoreContacts}
-          refreshing={refreshing}
-          loading={loading}
-          loadingMore={loadingMore}
         />
 
         <FilterModal

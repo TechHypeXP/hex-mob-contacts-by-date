@@ -1,25 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { SlidersHorizontal, Users, Clock } from 'lucide-react-native';
+import { SlidersHorizontal } from 'lucide-react-native';
 import { SearchFilters, ContactStats } from '@/types/contact';
 import { useTheme } from '@/hooks/useTheme';
+import { ConfigService } from '@/src/config/ConfigService';
+import { useContacts } from '@/hooks/useContacts'; // Import the new useContacts hook
 
 interface FilterBarProps {
-  filters: SearchFilters;
-  stats: ContactStats;
-  lastSyncTime: Date | null;
   onFilterPress: () => void;
   onSourceFilter: (source: string | undefined) => void;
+  onAdvancedSearchPress: () => void;
 }
 
-export function FilterBar({ 
-  filters, 
-  stats, 
-  lastSyncTime,
-  onFilterPress, 
-  onSourceFilter 
+export function FilterBar({
+  onFilterPress,
+  onSourceFilter,
+  onAdvancedSearchPress
 }: FilterBarProps) {
   const { colors } = useTheme();
+  const { filters, stats, lastSyncTime } = useContacts(); // Get filters, stats, lastSyncTime from context
+  const enableAdvancedSearch = ConfigService.get<boolean>('features.advancedSearch');
 
   const formatLastSync = (date: Date | null) => {
     if (!date) return 'Never';
@@ -40,32 +40,44 @@ export function FilterBar({
     return date.toLocaleDateString();
   };
 
-  const getLatestContactDate = (sourceType: string) => {
-    // Return the most recent modification date for contacts from this source
-    // For now, using lastSyncTime as approximation
-    return lastSyncTime;
-  };
-
-  const sources = [
+  const sources = useMemo(() => [
     { 
       key: 'all', 
       label: 'All', 
       count: stats.total,
-      lastUpdated: getLatestContactDate('all'),
+      lastUpdated: lastSyncTime,
     },
     { 
       key: 'device', 
       label: 'Device', 
       count: stats.bySource.device || 0,
-      lastUpdated: getLatestContactDate('device'),
+      lastUpdated: lastSyncTime,
+    },
+    { 
+      key: 'sim', 
+      label: 'SIM', 
+      count: stats.bySource.sim || 0,
+      lastUpdated: lastSyncTime,
+    },
+    { 
+      key: 'google', 
+      label: 'Google', 
+      count: stats.bySource.google || 0,
+      lastUpdated: lastSyncTime,
+    },
+    { 
+      key: 'exchange', 
+      label: 'Exchange', 
+      count: stats.bySource.exchange || 0,
+      lastUpdated: lastSyncTime,
     },
     { 
       key: 'favorites', 
       label: 'Favorites', 
       count: stats.favorites,
-      lastUpdated: getLatestContactDate('favorites'),
+      lastUpdated: lastSyncTime,
     },
-  ];
+  ], [stats, lastSyncTime]);
 
   const styles = StyleSheet.create({
     container: {
@@ -80,23 +92,23 @@ export function FilterBar({
       shadowRadius: 4,
     },
     scrollContainer: {
-      paddingHorizontal: 16,
+      paddingHorizontal: 12,
     },
     filterChip: {
       flexDirection: 'column',
       alignItems: 'center',
-      paddingHorizontal: 10,
+      paddingHorizontal: 12,
       paddingVertical: 6,
-      marginRight: 8,
-      borderRadius: 20,
+      marginRight: 6,
+      borderRadius: 16,
       backgroundColor: colors.surfaceVariant,
-      minWidth: 75,
+      minWidth: 65,
     },
     activeFilterChip: {
       backgroundColor: colors.primary,
     },
     filterLabel: {
-      fontSize: 12,
+      fontSize: 11,
       fontWeight: '600',
       color: colors.text,
       marginBottom: 1,
@@ -105,7 +117,7 @@ export function FilterBar({
       color: '#FFFFFF',
     },
     filterCount: {
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: 'bold',
       color: colors.primary,
     },
@@ -113,7 +125,7 @@ export function FilterBar({
       color: '#FFFFFF',
     },
     filterTime: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.textTertiary,
       marginTop: 1,
     },
@@ -125,12 +137,12 @@ export function FilterBar({
       alignItems: 'center',
       paddingHorizontal: 10,
       paddingVertical: 6,
-      borderRadius: 20,
+      borderRadius: 16,
       backgroundColor: colors.surfaceVariant,
-      marginLeft: 8,
+      marginLeft: 6,
     },
     moreFiltersText: {
-      fontSize: 12,
+      fontSize: 11,
       fontWeight: '600',
       color: colors.primary,
       marginLeft: 4,
@@ -147,8 +159,7 @@ export function FilterBar({
     if (sourceKey === 'all') {
       onSourceFilter(undefined);
     } else if (sourceKey === 'favorites') {
-      onSourceFilter(undefined);
-      // This would trigger the favorites filter
+      onSourceFilter('favorites');
     } else {
       onSourceFilter(sourceKey);
     }
@@ -195,13 +206,23 @@ export function FilterBar({
           );
         })}
         
+        {enableAdvancedSearch && (
+          <TouchableOpacity
+            style={styles.moreFiltersButton}
+            onPress={onAdvancedSearchPress}
+            activeOpacity={0.7}
+          >
+            <SlidersHorizontal size={14} color={colors.primary} />
+            <Text style={styles.moreFiltersText}>Advanced Search</Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={styles.moreFiltersButton}
           onPress={onFilterPress}
           activeOpacity={0.7}
         >
-          <SlidersHorizontal size={16} color={colors.primary} />
-          <Text style={styles.moreFiltersText}>More</Text>
+          <SlidersHorizontal size={14} color={colors.primary} />
+          <Text style={styles.moreFiltersText}>More Filters</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

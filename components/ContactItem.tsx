@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Platform } from 'react-native';
-import { Phone, Heart, Clock, MessageCircle } from 'lucide-react-native';
+import { Phone, Heart, MessageCircle } from 'lucide-react-native';
 import * as Linking from 'expo-linking';
 import * as Haptics from 'expo-haptics';
 import * as WebBrowser from 'expo-web-browser';
@@ -11,10 +11,9 @@ interface ContactItemProps {
   contact: Contact;
   onPress: () => void;
   onFavoriteToggle: () => void;
-  compact?: boolean;
 }
 
-export function ContactItem({ contact, onPress, onFavoriteToggle, compact = true }: ContactItemProps) {
+export function ContactItem({ contact, onPress, onFavoriteToggle }: ContactItemProps) {
   const { colors } = useTheme();
 
   const handleCall = async (phoneNumber: string) => {
@@ -38,7 +37,6 @@ export function ContactItem({ contact, onPress, onFavoriteToggle, compact = true
     if (canOpen) {
       await Linking.openURL(url);
     } else {
-      // Fallback to web WhatsApp
       await WebBrowser.openBrowserAsync(`https://wa.me/${cleanNumber}`);
     }
   };
@@ -60,32 +58,33 @@ export function ContactItem({ contact, onPress, onFavoriteToggle, compact = true
     
     if (diffDays === 0) return 'Today';
     if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)}mo ago`;
-    return contactDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    if (diffDays < 7) return `${diffDays}d`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)}w`;
+    if (diffDays < 365) return `${Math.floor(diffDays / 30)}mo`;
+    return contactDate.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
   };
 
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.surface,
-      marginHorizontal: 16,
+      marginHorizontal: 12,
       marginVertical: 1,
-      borderRadius: 12,
-      elevation: 2,
+      borderRadius: 8,
+      elevation: 1,
       shadowColor: colors.shadow,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.05,
+      shadowRadius: 2,
     },
     content: {
       flexDirection: 'row',
       alignItems: 'center',
-      padding: 12,
-      minHeight: 64,
+      paddingHorizontal: 12,
+      paddingVertical: 10,
+      minHeight: 48, // Adjusted for single line
     },
     avatar: {
-      width: 40,
+      width: 40, // Slightly larger avatar
       height: 40,
       borderRadius: 20,
       backgroundColor: colors.surfaceVariant,
@@ -99,60 +98,39 @@ export function ContactItem({ contact, onPress, onFavoriteToggle, compact = true
       borderRadius: 20,
     },
     avatarText: {
-      fontSize: 16,
+      fontSize: 16, // Slightly larger text
       fontWeight: '600',
       color: colors.primary,
     },
     contactInfo: {
       flex: 1,
-      justifyContent: 'center',
+      flexDirection: 'row', // Arrange items horizontally
+      alignItems: 'center',
+      justifyContent: 'space-between', // Space out name/date and phone
     },
-    topRow: {
+    mainInfo: {
+      flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
-      marginBottom: 2,
     },
     contactName: {
-      fontSize: 15,
+      fontSize: 15, // Slightly larger font for name
       fontWeight: '600',
       color: colors.text,
-      flex: 1,
+      marginRight: 8, // Space between name and date
     },
     dateText: {
-      fontSize: 11,
+      fontSize: 12,
       color: colors.textSecondary,
-      marginLeft: 8,
-    },
-    bottomRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
     },
     phoneText: {
       fontSize: 13,
       color: colors.textSecondary,
-      flex: 1,
-    },
-    actions: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    actionButton: {
-      padding: 6,
-      marginLeft: 4,
-    },
-    callButton: {
-      padding: 6,
-      marginLeft: 4,
-    },
-    whatsappButton: {
-      padding: 6,
-      marginLeft: 4,
+      marginLeft: 10, // Space between date and phone
     },
     favoriteButton: {
-      padding: 6,
-      marginLeft: 4,
+      padding: 8, // Larger touch target
+      marginLeft: 8,
     },
   });
 
@@ -171,46 +149,24 @@ export function ContactItem({ contact, onPress, onFavoriteToggle, compact = true
           )}
         </View>
         <View style={styles.contactInfo}>
-          <View style={styles.topRow}>
+          <View style={styles.mainInfo}>
             <Text style={styles.contactName} numberOfLines={1}>{contact.name}</Text>
             <Text style={styles.dateText}>{formatDate(contact.modifiedAt)}</Text>
-          </View>
-          <View style={styles.bottomRow}>
             <Text style={styles.phoneText} numberOfLines={1}>
-              {primaryPhone ? primaryPhone.number : 'No phone number'}
+              {primaryPhone ? primaryPhone.number : 'No phone'}
             </Text>
-            <View style={styles.actions}>
-              {primaryPhone && (
-                <>
-                  <TouchableOpacity 
-                    style={styles.callButton} 
-                    onPress={() => handleCall(primaryPhone.number)}
-                    activeOpacity={0.7}
-                  >
-                    <Phone size={16} color={colors.primary} />
-                  </TouchableOpacity>
-                  <TouchableOpacity 
-                    style={styles.whatsappButton} 
-                    onPress={() => handleWhatsApp(primaryPhone.number)}
-                    activeOpacity={0.7}
-                  >
-                    <MessageCircle size={16} color={colors.success} />
-                  </TouchableOpacity>
-                </>
-              )}
-              <TouchableOpacity 
-                style={styles.favoriteButton} 
-                onPress={handleFavoriteToggle}
-                activeOpacity={0.7}
-              >
-                <Heart 
-                  size={16} 
-                  color={contact.isFavorite ? colors.error : colors.textTertiary}
-                  fill={contact.isFavorite ? colors.error : 'transparent'}
-                />
-              </TouchableOpacity>
-            </View>
           </View>
+          <TouchableOpacity
+            style={styles.favoriteButton}
+            onPress={handleFavoriteToggle}
+            activeOpacity={0.7}
+          >
+            <Heart
+              size={18} // Slightly larger icon
+              color={contact.isFavorite ? colors.error : colors.textTertiary}
+              fill={contact.isFavorite ? colors.error : 'transparent'}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </TouchableOpacity>

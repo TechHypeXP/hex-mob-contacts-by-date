@@ -1,0 +1,3218 @@
+Repository: techhypexp/hex-mob-contacts-by-date
+Files analyzed: 26
+
+Estimated tokens: 20.9k
+
+Directory structure:
+└── techhypexp-hex-mob-contacts-by-date/
+    ├── README.md
+    ├── app.json
+    ├── CHANGELOG.md
+    ├── package.json
+    ├── tsconfig.json
+    ├── .npmrc
+    ├── .prettierrc
+    ├── app/
+    │   ├── +not-found.tsx
+    │   ├── _layout.tsx
+    │   └── (tabs)/
+    │       ├── _layout.tsx
+    │       ├── index.tsx
+    │       ├── settings.tsx
+    │       └── stats.tsx
+    ├── assets/
+    │   └── images/
+    ├── components/
+    │   ├── ContactDetails.tsx
+    │   ├── ContactItem.tsx
+    │   ├── ContactList.tsx
+    │   ├── FilterBar.tsx
+    │   ├── FilterModal.tsx
+    │   ├── SearchBar.tsx
+    │   └── StatsCard.tsx
+    ├── hooks/
+    │   ├── useContacts.ts
+    │   ├── useDebounce.ts
+    │   ├── useFrameworkReady.ts
+    │   └── useTheme.ts
+    ├── types/
+    │   └── contact.ts
+    └── .bolt/
+        └── config.json
+
+
+================================================
+FILE: README.md
+================================================
+# Contact Manager Pro
+
+A production-ready, cross-platform contact management application built with React Native and Expo. Designed for optimal performance with large contact datasets while maintaining privacy and security.
+
+## Features
+
+### Core Functionality
+- **Contact Aggregation**: Import from device storage, SIM, Google, Exchange, and other accounts
+- **Advanced Search**: Real-time debounced search across names, tags, job titles, phone numbers, and emails
+- **Smart Sorting**: Sort by name, creation date, or modification date with persistent preferences
+- **Intelligent Filtering**: Filter by contact source with "all sources" as default view
+- **Comprehensive Details**: Display complete contact information including multiple phone numbers, emails, addresses, job details, notes, and metadata
+- **Quick Actions**: One-tap call, SMS, WhatsApp, and email functionality
+- **Favorites System**: Mark and filter favorite contacts
+- **Data Management**: Duplicate detection and merge suggestions
+
+### Performance & Optimization
+- **Virtualized Lists**: Smooth performance with 7,000+ contacts using FlatList optimization
+- **Lazy Loading**: Efficient memory usage with on-demand rendering
+- **Debounced Search**: Optimized search performance with 300ms debouncing
+- **Local Storage**: All data remains on device for maximum privacy and speed
+- **Background Refresh**: Smart contact synchronization
+
+### User Experience
+- **Material Design 3**: Modern, intuitive interface following Google's design guidelines
+- **Dark/Light Mode**: Automatic theme switching based on system preferences
+- **Haptic Feedback**: Tactile responses for all interactions (iOS/Android only)
+- **Responsive Design**: Optimized for all Android screen sizes and orientations
+- **Accessibility**: Full support for screen readers and accessibility features
+
+### Privacy & Security
+- **Local-Only Storage**: Contact data never leaves your device
+- **Secure Permissions**: Proper handling of contacts, phone, and messaging permissions
+- **Error Handling**: Robust crash protection and graceful error recovery
+- **Data Integrity**: Secure local data storage with AsyncStorage
+
+## Technical Stack
+
+- **Framework**: React Native with Expo SDK 53
+- **Language**: TypeScript throughout
+- **Navigation**: Expo Router with tab-based architecture
+- **UI Components**: Custom components with Material Design 3 principles
+- **Icons**: Lucide React Native for consistent iconography
+- **Storage**: AsyncStorage for local data persistence
+- **Permissions**: Expo Contacts API for device integration
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+ and npm/yarn
+- Expo CLI: `npm install -g @expo/cli`
+- For Android: Android Studio and Android SDK
+- For iOS: Xcode (macOS only)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd contact-manager-pro
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+### Building for Production
+
+#### Android APK
+```bash
+# Install EAS CLI
+npm install -g eas-cli
+
+# Configure EAS
+eas build:configure
+
+# Build Android APK
+eas build --platform android --profile preview
+```
+
+#### iOS App
+```bash
+# Build iOS app
+eas build --platform ios --profile preview
+```
+
+### Development Workflow
+
+1. **Local Development**: Use `npm run dev` to start Expo development server
+2. **Testing**: Test on physical devices using Expo Go app
+3. **Building**: Use EAS Build for production builds
+4. **Deployment**: Deploy to app stores using EAS Submit
+
+## Project Structure
+
+```
+├── app/                    # Expo Router pages
+│   ├── (tabs)/            # Tab navigation
+│   │   ├── index.tsx      # Contacts list
+│   │   ├── stats.tsx      # Statistics
+│   │   └── settings.tsx   # Settings
+│   └── _layout.tsx        # Root layout
+├── components/            # Reusable UI components
+│   ├── ContactItem.tsx    # Individual contact card
+│   ├── ContactList.tsx    # Virtualized contact list
+│   ├── ContactDetails.tsx # Contact detail modal
+│   ├── SearchBar.tsx      # Search input component
+│   ├── FilterModal.tsx    # Filter options modal
+│   └── StatsCard.tsx      # Statistics display
+├── hooks/                 # Custom React hooks
+│   ├── useContacts.ts     # Contact management logic
+│   ├── useDebounce.ts     # Debounced values
+│   └── useTheme.ts        # Theme management
+├── types/                 # TypeScript type definitions
+│   └── contact.ts         # Contact data models
+└── README.md             # This file
+```
+
+## Performance Optimizations
+
+### Large Dataset Handling
+- **FlatList Virtualization**: Only renders visible items, handles thousands of contacts smoothly
+- **getItemLayout**: Pre-calculated item heights for instant scrolling
+- **removeClippedSubviews**: Removes off-screen views from memory
+- **Batch Rendering**: Optimized batch sizes for smooth scrolling
+
+### Search Performance
+- **Debounced Input**: 300ms delay prevents excessive API calls
+- **Multi-field Search**: Searches across name, company, job title, phone, and email
+- **Case-insensitive**: Normalized search for better user experience
+
+### Memory Management
+- **Lazy Loading**: Components load only when needed
+- **Image Optimization**: Efficient handling of contact photos
+- **State Management**: Minimal re-renders with optimized state updates
+
+## Privacy & Security
+
+### Data Protection
+- **Local Storage Only**: No cloud storage or external APIs
+- **Secure Permissions**: Granular permission requests
+- **Data Encryption**: AsyncStorage provides encrypted local storage
+- **No Analytics**: No user data collection or tracking
+
+### Permission Management
+- **Contacts**: Read-only access to device contacts
+- **Phone**: For making calls from the app
+- **SMS**: For sending text messages
+- **Camera**: For contact photo updates (future feature)
+
+## Features in Detail
+
+### Contact Import
+- Automatic detection of all contact sources on device
+- Support for multiple account types (Google, Exchange, etc.)
+- Intelligent data mapping and normalization
+- Duplicate detection during import
+
+### Search & Filter
+- Real-time search with 300ms debouncing
+- Multi-field search across all contact data
+- Source-based filtering (device, SIM, Google, etc.)
+- Favorites filtering
+- Persistent filter preferences
+
+### Contact Management
+- Complete contact information display
+- Multiple phone numbers and emails
+- Address management
+- Notes and tags system
+- Creation and modification timestamps
+- Contact source tracking
+
+### Quick Actions
+- Direct calling with tel: links
+- SMS messaging with sms: links
+- WhatsApp integration
+- Email composition
+- Contact sharing (future feature)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Commit changes: `git commit -am 'Add new feature'`
+4. Push to branch: `git push origin feature/new-feature`
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Support
+
+- **Email**: support@contactmanager.app
+- **GitHub Issues**: [Create an issue](https://github.com/contactmanager/app/issues)
+- **Documentation**: [Wiki](https://github.com/contactmanager/app/wiki)
+
+## Roadmap
+
+### Version 1.1
+- [ ] Contact editing and creation
+- [ ] Contact export functionality
+- [ ] Advanced duplicate management
+- [ ] Contact backup and restore
+
+### Version 1.2
+- [ ] Contact groups and categories
+- [ ] Advanced search filters
+- [ ] Contact sharing
+- [ ] Contact history tracking
+
+### Version 2.0
+- [ ] Web platform support
+- [ ] Sync across devices
+- [ ] Advanced analytics
+- [ ] Contact insights and recommendations
+
+---
+
+Built with ❤️ using React Native and Expo. Designed for privacy, performance, and user experience.
+
+
+================================================
+FILE: app.json
+================================================
+{
+  "expo": {
+    "name": "bolt-expo-nativewind",
+    "slug": "bolt-expo-nativewind",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": ["expo-router", "expo-font", "expo-web-browser"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
+
+
+
+================================================
+FILE: CHANGELOG.md
+================================================
+# Contact Manager Pro - Changelog
+
+## Version 1.2.0 - Bugfixes & Functional Stability
+*Released: [Current Date]*
+
+### 🐛 Critical Bug Fixes
+
+#### Contact Date Display
+- **FIXED**: All contacts showing "today" for creation/modification dates
+- **IMPROVED**: Accurate date parsing from device contact metadata
+- **ENHANCED**: Better fallback date handling for contacts without timestamps
+
+#### Navigation & Landing Screen
+- **FIXED**: App crashes related to missing screen definitions
+- **IMPROVED**: Reliable navigation flow from landing to main interface
+- **ENHANCED**: Proper error boundaries and navigation error handling
+
+#### Theme & Visual Consistency
+- **FIXED**: Black screen flashes during startup and theme switching
+- **IMPROVED**: Instant global theme updates across all UI components
+- **ENHANCED**: Better dark mode contrast ratios and color consistency
+- **FIXED**: Tab bar positioning and Android system button overlaps
+
+### 🚀 Performance Improvements
+
+#### Contact List Optimization
+- **IMPROVED**: Single-line contact display (name, date, phone number)
+- **ENHANCED**: Compact 64px item height for better list density
+- **OPTIMIZED**: Better virtualization with accurate item layout calculations
+- **FIXED**: Screen bounds and scroll behavior on Galaxy A72 devices
+
+#### Search & Filtering
+- **ENHANCED**: Multi-keyword search algorithm ("shots rehab" now works correctly)
+- **IMPROVED**: Comprehensive search across all contact fields
+- **FIXED**: Missing contacts in search results
+- **OPTIMIZED**: Better keyword tokenization and matching
+
+#### Smart Loading & Data Management
+- **IMPROVED**: Application-wide data sharing (no per-tab reloading)
+- **ENHANCED**: Incremental loading with immediate first batch display
+- **OPTIMIZED**: Pull-to-refresh uses smart background loading
+- **FIXED**: UI blocking during large dataset operations
+
+### 🎨 UI/UX Enhancements
+
+#### Contact Cards & Actions
+- **ADDED**: WhatsApp action button in both list and detail views
+- **IMPROVED**: Compact contact details modal with expand option
+- **ENHANCED**: Better action button visibility and touch targets
+- **FIXED**: Android back button behavior in detail views
+
+#### Filter & Source Selection
+- **IMPROVED**: Distinct filter icon (SlidersHorizontal) for better UX
+- **ENHANCED**: Source chips show contact counts and last update timestamps
+- **FIXED**: Filter modal reset button functionality
+- **OPTIMIZED**: Better responsive design for various screen sizes
+
+#### Visual Polish
+- **IMPROVED**: Better spacing and typography consistency
+- **ENHANCED**: Proper safe area handling for Android devices
+- **FIXED**: Tab bar positioning and system overlay conflicts
+- **OPTIMIZED**: Icon sizing and color consistency
+
+### 🔧 Technical Improvements
+
+#### Data Integrity
+- **ENHANCED**: Better contact data transformation and validation
+- **IMPROVED**: Robust error handling for malformed contact data
+- **FIXED**: Contact source detection and categorization
+- **OPTIMIZED**: Memory usage for large contact datasets
+
+#### Platform Compatibility
+- **IMPROVED**: Galaxy A72 specific optimizations
+- **ENHANCED**: Better Android system integration
+- **FIXED**: Screen cutout and overlay handling
+- **OPTIMIZED**: Touch target sizes for various screen densities
+
+### 📱 Android Specific Fixes
+- **FIXED**: Tab bar height calculation for different screen sizes
+- **IMPROVED**: System button overlay prevention
+- **ENHANCED**: Better gesture handling and navigation
+- **OPTIMIZED**: Performance on mid-range Android devices
+
+---
+
+## Version 1.1.0 - Main Search Screen Improvements
+*Previous Release*
+
+### Features
+- Single-line contact display optimization
+- Fast incremental loading for 6,500+ contacts
+- Enhanced filter/sort bar with contact counts
+- Multi-keyword search implementation
+- Application-wide data sharing
+- UI/theme fixes for Galaxy A72
+
+---
+
+## Version 1.0.0 - Initial Release
+*Initial Release*
+
+### Core Features
+- Contact aggregation from multiple sources
+- Real-time search and filtering
+- Contact details and quick actions
+- Statistics and analytics
+- Dark/light theme support
+- Privacy-focused local storage
+
+
+================================================
+FILE: package.json
+================================================
+{
+  "name": "bolt-expo-starter",
+  "main": "expo-router/entry",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "EXPO_NO_TELEMETRY=1 expo start",
+    "build:web": "expo export --platform web",
+    "lint": "expo lint"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^14.1.0",
+    "@lucide/lab": "^0.1.2",
+    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-community/netinfo": "^11.4.1",
+    "@react-navigation/bottom-tabs": "^7.2.0",
+    "@react-navigation/native": "^7.0.14",
+    "expo": "^53.0.0",
+    "expo-blur": "~14.1.3",
+    "expo-camera": "~16.1.5",
+    "expo-constants": "~17.1.3",
+    "expo-contacts": "^14.2.5",
+    "expo-font": "~13.2.2",
+    "expo-haptics": "~14.1.3",
+    "expo-linear-gradient": "~14.1.3",
+    "expo-linking": "~7.1.3",
+    "expo-permissions": "^14.4.0",
+    "expo-router": "~5.0.2",
+    "expo-splash-screen": "~0.30.6",
+    "expo-status-bar": "~2.2.2",
+    "expo-symbols": "~0.4.3",
+    "expo-system-ui": "~5.0.5",
+    "expo-web-browser": "~14.1.5",
+    "lucide-react-native": "^0.475.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-native": "0.79.1",
+    "react-native-gesture-handler": "~2.24.0",
+    "react-native-paper": "^5.14.5",
+    "react-native-reanimated": "~3.17.4",
+    "react-native-safe-area-context": "5.3.0",
+    "react-native-screens": "~4.10.0",
+    "react-native-svg": "15.11.2",
+    "react-native-url-polyfill": "^2.0.0",
+    "react-native-vector-icons": "^10.2.0",
+    "react-native-web": "^0.20.0",
+    "react-native-webview": "13.13.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@types/react": "~19.0.10",
+    "typescript": "~5.8.3"
+  }
+}
+
+
+
+================================================
+FILE: tsconfig.json
+================================================
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
+  ]
+}
+
+
+
+================================================
+FILE: .npmrc
+================================================
+legacy-peer-deps=true
+
+
+
+================================================
+FILE: .prettierrc
+================================================
+{
+  "useTabs": false,
+  "bracketSpacing": true,
+  "singleQuote": true,
+  "tabWidth": 2
+}
+
+
+
+================================================
+FILE: app/+not-found.tsx
+================================================
+import { Link, Stack } from 'expo-router';
+import { StyleSheet, Text, View } from 'react-native';
+
+export default function NotFoundScreen() {
+  return (
+    <>
+      <Stack.Screen options={{ title: 'Oops!' }} />
+      <View style={styles.container}>
+        <Text style={styles.text}>This screen doesn't exist.</Text>
+        <Link href="/" style={styles.link}>
+          <Text>Go to home screen!</Text>
+        </Link>
+      </View>
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: 600,
+  },
+  link: {
+    marginTop: 15,
+    paddingVertical: 15,
+  },
+});
+
+
+
+================================================
+FILE: app/_layout.tsx
+================================================
+import { useEffect } from 'react';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { useFrameworkReady } from '@/hooks/useFrameworkReady';
+
+export default function RootLayout() {
+  useFrameworkReady();
+
+  return (
+    <>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style="auto" />
+    </>
+  );
+}
+
+
+
+================================================
+FILE: app/(tabs)/_layout.tsx
+================================================
+import { Tabs } from 'expo-router';
+import { Users, ChartBar as BarChart3, Settings } from 'lucide-react-native';
+import { Platform } from 'react-native';
+import { useTheme } from '@/hooks/useTheme';
+
+export default function TabLayout() {
+  const { colors, screenData } = useTheme();
+  
+  // Optimize tab bar height for different screen sizes and safe areas
+  const getTabBarHeight = () => {
+    if (Platform.OS === 'android') {
+      // Account for Galaxy A72 and similar devices
+      if (screenData.height > 900) return 70;
+      if (screenData.height > 800) return 65;
+      return 60;
+    }
+    return 65;
+  };
+
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textTertiary,
+        tabBarStyle: {
+          backgroundColor: colors.surface,
+          borderTopColor: colors.outline,
+          borderTopWidth: 1,
+          height: getTabBarHeight(),
+          paddingBottom: Platform.select({
+            android: 10,
+            default: 0,
+          }),
+          paddingTop: 10,
+          elevation: 8,
+          shadowColor: colors.shadow,
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        },
+        tabBarLabelStyle: {
+          fontSize: Platform.select({
+            android: screenData.width > 400 ? 11 : 10,
+            default: 12,
+          }),
+          fontWeight: '500',
+          marginBottom: Platform.select({
+            android: 2,
+            default: 0,
+          }),
+        },
+        tabBarIconStyle: {
+          marginTop: Platform.select({
+            android: 2,
+            default: 0,
+          }),
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Contacts',
+          tabBarIcon: ({ size, color }) => (
+            <Users size={Platform.select({ android: 20, default: size })} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="stats"
+        options={{
+          title: 'Stats',
+          tabBarIcon: ({ size, color }) => (
+            <BarChart3 size={Platform.select({ android: 20, default: size })} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ size, color }) => (
+            <Settings size={Platform.select({ android: 20, default: size })} color={color} />
+          ),
+        }}
+      />
+    </Tabs>
+  );
+}
+
+
+================================================
+FILE: app/(tabs)/index.tsx
+================================================
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import { ContactList } from '@/components/ContactList';
+import { SearchBar } from '@/components/SearchBar';
+import { FilterBar } from '@/components/FilterBar';
+import { FilterModal } from '@/components/FilterModal';
+import { ContactDetails } from '@/components/ContactDetails';
+import { useContacts } from '@/hooks/useContacts';
+import { useDebounce } from '@/hooks/useDebounce';
+import { useTheme } from '@/hooks/useTheme';
+import { Contact } from '@/types/contact';
+
+export default function ContactsTab() {
+  const { colors, isDark } = useTheme();
+  const {
+    contacts,
+    filteredContacts,
+    loading,
+    loadingMore,
+    error,
+    filters,
+    stats,
+    lastSyncTime,
+    loadContacts,
+    loadMoreContacts,
+    toggleFavorite,
+    updateFilters,
+  } = useContacts();
+
+  const [searchQuery, setSearchQuery] = useState(filters.query);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  // Update filters when debounced search query changes
+  useEffect(() => {
+    if (debouncedSearchQuery !== filters.query) {
+      updateFilters({ query: debouncedSearchQuery });
+    }
+  }, [debouncedSearchQuery, filters.query, updateFilters]);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await loadContacts();
+    setRefreshing(false);
+  };
+
+  const handleContactPress = (contact: Contact) => {
+    setSelectedContact(contact);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedContact(null);
+  };
+
+  const handleFavoriteToggle = async (contactId: string) => {
+    await toggleFavorite(contactId);
+    // Update selected contact if it's currently open
+    if (selectedContact && selectedContact.id === contactId) {
+      setSelectedContact({ 
+        ...selectedContact, 
+        isFavorite: !selectedContact.isFavorite 
+      });
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+  };
+
+  const handleSourceFilter = (source: string | undefined) => {
+    if (source === 'favorites') {
+      updateFilters({ showFavoritesOnly: true, source: undefined });
+    } else {
+      updateFilters({ showFavoritesOnly: false, source });
+    }
+  };
+  const sources = ['device', 'sim', 'google', 'exchange'];
+  const hasMore = contacts.length < filteredContacts.length;
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    content: {
+      flex: 1,
+      paddingBottom: Platform.select({
+        android: 80, // Account for tab bar height
+        default: 65,
+      }),
+    },
+  });
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+      <View style={styles.content}>
+        <SearchBar
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          onClear={clearSearch}
+          onFilterPress={() => setShowFilterModal(true)}
+        />
+        
+        <FilterBar
+          filters={filters}
+          stats={stats}
+          lastSyncTime={lastSyncTime}
+          onFilterPress={() => setShowFilterModal(true)}
+          onSourceFilter={handleSourceFilter}
+        />
+        
+        <ContactList
+          contacts={contacts}
+          hasMore={hasMore}
+          onContactPress={handleContactPress}
+          onFavoriteToggle={handleFavoriteToggle}
+          onRefresh={handleRefresh}
+          onLoadMore={loadMoreContacts}
+          refreshing={refreshing}
+          loading={loading}
+          loadingMore={loadingMore}
+        />
+
+        <FilterModal
+          visible={showFilterModal}
+          filters={filters}
+          onFiltersChange={updateFilters}
+          onClose={() => setShowFilterModal(false)}
+          sources={sources}
+        />
+
+        <ContactDetails
+          contact={selectedContact}
+          visible={!!selectedContact}
+          onClose={handleCloseDetails}
+          onFavoriteToggle={() => selectedContact && handleFavoriteToggle(selectedContact.id)}
+        />
+      </View>
+    </SafeAreaView>
+  );
+}
+
+
+================================================
+FILE: app/(tabs)/settings.tsx
+================================================
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  Switch,
+  StatusBar,
+  Alert,
+  Linking,
+} from 'react-native';
+import { Moon, Sun, Smartphone, RefreshCw as Refresh, Database, Shield, Info, Mail, Github, Star, Download } from 'lucide-react-native';
+import { useTheme, ThemeMode } from '@/hooks/useTheme';
+import { useContacts } from '@/hooks/useContacts';
+
+export default function SettingsTab() {
+  const { colors, isDark, themeMode, changeTheme } = useTheme();
+  const { loadContacts, stats, lastSyncTime } = useContacts();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      backgroundColor: colors.surface,
+      paddingHorizontal: 16,
+      paddingVertical: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text,
+      textAlign: 'center',
+    },
+    subtitle: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      textAlign: 'center',
+      marginTop: 4,
+    },
+    syncInfo: {
+      fontSize: 12,
+      color: colors.textTertiary,
+      textAlign: 'center',
+      marginTop: 2,
+    },
+    content: {
+      flex: 1,
+    },
+    section: {
+      backgroundColor: colors.surface,
+      marginHorizontal: 16,
+      marginVertical: 8,
+      borderRadius: 12,
+      elevation: 2,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginLeft: 8,
+    },
+    settingItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    lastItem: {
+      borderBottomWidth: 0,
+    },
+    settingIcon: {
+      marginRight: 12,
+    },
+    settingContent: {
+      flex: 1,
+    },
+    settingTitle: {
+      fontSize: 14,
+      color: colors.text,
+      marginBottom: 2,
+    },
+    settingDescription: {
+      fontSize: 12,
+      color: colors.textSecondary,
+    },
+    themeOption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    themeOptionContent: {
+      flex: 1,
+      marginLeft: 12,
+    },
+    themeOptionTitle: {
+      fontSize: 14,
+      color: colors.text,
+    },
+    themeOptionDescription: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      marginTop: 2,
+    },
+    radioButton: {
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    radioButtonSelected: {
+      backgroundColor: colors.primary,
+    },
+    radioButtonInner: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: '#FFFFFF',
+    },
+    appInfo: {
+      backgroundColor: colors.surface,
+      marginHorizontal: 16,
+      marginVertical: 8,
+      borderRadius: 12,
+      padding: 16,
+      elevation: 2,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    appName: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+      textAlign: 'center',
+      marginBottom: 4,
+    },
+    appVersion: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+    appDescription: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      textAlign: 'center',
+      lineHeight: 16,
+    },
+  });
+
+  const formatSyncTime = (date: Date | null) => {
+    if (!date) return 'Never synced';
+    return `Last synced: ${date.toLocaleString()}`;
+  };
+  const handleRefreshContacts = async () => {
+    Alert.alert(
+      'Refresh Contacts',
+      'This will reload all contacts from your device. Continue?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Refresh', 
+          onPress: () => loadContacts(),
+        },
+      ]
+    );
+  };
+
+  const handleThemeChange = (mode: ThemeMode) => {
+    changeTheme(mode);
+  };
+
+  const handleOpenURL = async (url: string) => {
+    const canOpen = await Linking.canOpenURL(url);
+    if (canOpen) {
+      await Linking.openURL(url);
+    }
+  };
+
+  const themeOptions = [
+    {
+      mode: 'light' as ThemeMode,
+      icon: <Sun size={20} color={colors.accent} />,
+      title: 'Light',
+      description: 'Use light theme',
+    },
+    {
+      mode: 'dark' as ThemeMode,
+      icon: <Moon size={20} color={colors.primary} />,
+      title: 'Dark',
+      description: 'Use dark theme',
+    },
+    {
+      mode: 'auto' as ThemeMode,
+      icon: <Smartphone size={20} color={colors.secondary} />,
+      title: 'System',
+      description: 'Follow system theme',
+    },
+  ];
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+      <View style={styles.header}>
+        <Text style={styles.title}>Settings</Text>
+        <Text style={styles.subtitle}>Customize your contact management experience</Text>
+        <Text style={styles.syncInfo}>{formatSyncTime(lastSyncTime)}</Text>
+      </View>
+
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Moon size={20} color={colors.primary} />
+            <Text style={styles.sectionTitle}>Appearance</Text>
+          </View>
+          {themeOptions.map((option, index) => (
+            <TouchableOpacity
+              key={option.mode}
+              style={[
+                styles.themeOption,
+                index === themeOptions.length - 1 && styles.lastItem,
+              ]}
+              onPress={() => handleThemeChange(option.mode)}
+              activeOpacity={0.7}
+            >
+              {option.icon}
+              <View style={styles.themeOptionContent}>
+                <Text style={styles.themeOptionTitle}>{option.title}</Text>
+                <Text style={styles.themeOptionDescription}>{option.description}</Text>
+              </View>
+              <View style={[
+                styles.radioButton,
+                themeMode === option.mode && styles.radioButtonSelected,
+              ]}>
+                {themeMode === option.mode && (
+                  <View style={styles.radioButtonInner} />
+                )}
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Database size={20} color={colors.secondary} />
+            <Text style={styles.sectionTitle}>Data</Text>
+          </View>
+          <TouchableOpacity 
+            style={[styles.settingItem, styles.lastItem]}
+            onPress={handleRefreshContacts}
+            activeOpacity={0.7}
+          >
+            <Refresh size={20} color={colors.accent} style={styles.settingIcon} />
+            <View style={styles.settingContent}>
+              <Text style={styles.settingTitle}>Refresh Contacts</Text>
+              <Text style={styles.settingDescription}>
+                Reload contacts from device ({stats.total.toLocaleString()} contacts) - {formatSyncTime(lastSyncTime)}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Shield size={20} color={colors.success} />
+            <Text style={styles.sectionTitle}>Privacy & Security</Text>
+          </View>
+          <View style={[styles.settingItem, styles.lastItem]}>
+            <Shield size={20} color={colors.success} style={styles.settingIcon} />
+            <View style={styles.settingContent}>
+              <Text style={styles.settingTitle}>Local Storage Only</Text>
+              <Text style={styles.settingDescription}>
+                All contact data remains on your device and is never uploaded to external servers
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Info size={20} color={colors.primary} />
+            <Text style={styles.sectionTitle}>Support</Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.settingItem}
+            onPress={() => handleOpenURL('mailto:support@contactmanager.app')}
+            activeOpacity={0.7}
+          >
+            <Mail size={20} color={colors.primary} style={styles.settingIcon} />
+            <View style={styles.settingContent}>
+              <Text style={styles.settingTitle}>Contact Support</Text>
+              <Text style={styles.settingDescription}>Get help with the app</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.settingItem}
+            onPress={() => handleOpenURL('https://github.com/contactmanager/app')}
+            activeOpacity={0.7}
+          >
+            <Github size={20} color={colors.textSecondary} style={styles.settingIcon} />
+            <View style={styles.settingContent}>
+              <Text style={styles.settingTitle}>View on GitHub</Text>
+              <Text style={styles.settingDescription}>Source code and documentation</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.settingItem, styles.lastItem]}
+            onPress={() => handleOpenURL('https://github.com/contactmanager/app/releases')}
+            activeOpacity={0.7}
+          >
+            <Star size={20} color={colors.accent} style={styles.settingIcon} />
+            <View style={styles.settingContent}>
+              <Text style={styles.settingTitle}>Rate the App</Text>
+              <Text style={styles.settingDescription}>Help us improve by leaving a review</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.appInfo}>
+          <Text style={styles.appName}>Contact Manager Pro</Text>
+          <Text style={styles.appVersion}>Version 1.1.0</Text>
+          <Text style={styles.appDescription}>
+            A powerful, privacy-focused contact management application designed for modern mobile devices.
+            Built with React Native and Expo for optimal performance and cross-platform compatibility.
+          </Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+
+================================================
+FILE: app/(tabs)/stats.tsx
+================================================
+import React from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { StatsCard } from '@/components/StatsCard';
+import { useContacts } from '@/hooks/useContacts';
+import { useTheme } from '@/hooks/useTheme';
+import { ChartBar as BarChart3, TrendingUp, Users, Database } from 'lucide-react-native';
+
+export default function StatsTab() {
+  const { colors, isDark } = useTheme();
+  const { stats, allContacts, lastSyncTime } = useContacts();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      backgroundColor: colors.surface,
+      paddingHorizontal: 16,
+      paddingVertical: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text,
+      textAlign: 'center',
+    },
+    subtitle: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      textAlign: 'center',
+      marginTop: 4,
+    },
+    syncInfo: {
+      fontSize: 12,
+      color: colors.textTertiary,
+      textAlign: 'center',
+      marginTop: 2,
+    },
+    content: {
+      flex: 1,
+    },
+    section: {
+      backgroundColor: colors.surface,
+      marginHorizontal: 16,
+      marginVertical: 8,
+      borderRadius: 12,
+      padding: 16,
+      elevation: 2,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 12,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginLeft: 8,
+    },
+    sourceItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 8,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    lastSourceItem: {
+      borderBottomWidth: 0,
+    },
+    sourceLabel: {
+      fontSize: 14,
+      color: colors.text,
+      textTransform: 'capitalize',
+    },
+    sourceCount: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.primary,
+    },
+    insightItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 8,
+    },
+    insightText: {
+      fontSize: 14,
+      color: colors.text,
+      marginLeft: 8,
+      flex: 1,
+    },
+    emptyState: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 32,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      textAlign: 'center',
+      marginTop: 16,
+    },
+  });
+
+  const contactsWithPhotos = allContacts.filter(c => c.imageUri);
+  const contactsWithEmails = allContacts.filter(c => c.emails.length > 0);
+  const contactsWithAddresses = allContacts.filter(c => c.addresses.length > 0);
+  const contactsWithCompany = allContacts.filter(c => c.company);
+
+  const formatSyncTime = (date: Date | null) => {
+    if (!date) return 'Never synced';
+    return `Last synced: ${date.toLocaleString()}`;
+  };
+  const insights = [
+    {
+      icon: <Users size={16} color={colors.primary} />,
+      text: `${((contactsWithPhotos.length / stats.total) * 100).toFixed(1)}% of contacts have photos`,
+    },
+    {
+      icon: <TrendingUp size={16} color={colors.secondary} />,
+      text: `${((contactsWithEmails.length / stats.total) * 100).toFixed(1)}% have email addresses`,
+    },
+    {
+      icon: <Database size={16} color={colors.accent} />,
+      text: `${((contactsWithAddresses.length / stats.total) * 100).toFixed(1)}% have physical addresses`,
+    },
+    {
+      icon: <BarChart3 size={16} color={colors.success} />,
+      text: `${((contactsWithCompany.length / stats.total) * 100).toFixed(1)}% have company information`,
+    },
+  ];
+
+  if (stats.total === 0) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+        <View style={styles.header}>
+          <Text style={styles.title}>Contact Statistics</Text>
+          <Text style={styles.subtitle}>Insights about your contacts</Text>
+          <Text style={styles.syncInfo}>{formatSyncTime(lastSyncTime)}</Text>
+        </View>
+        <View style={styles.emptyState}>
+          <BarChart3 size={48} color={colors.textTertiary} />
+          <Text style={styles.emptyText}>
+            No contacts found.{'\n'}Import contacts to see statistics.
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+      <View style={styles.header}>
+        <Text style={styles.title}>Contact Statistics</Text>
+        <Text style={styles.subtitle}>Insights about your {stats.total.toLocaleString()} contacts</Text>
+        <Text style={styles.syncInfo}>{formatSyncTime(lastSyncTime)}</Text>
+      </View>
+      
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <StatsCard stats={stats} />
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Database size={20} color={colors.primary} />
+            <Text style={styles.sectionTitle}>Sources</Text>
+          </View>
+          {Object.entries(stats.bySource).map(([source, count], index, array) => (
+            <View 
+              key={source} 
+              style={[
+                styles.sourceItem,
+                index === array.length - 1 && styles.lastSourceItem,
+              ]}
+            >
+              <Text style={styles.sourceLabel}>{source}</Text>
+              <Text style={styles.sourceCount}>{count.toLocaleString()}</Text>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <TrendingUp size={20} color={colors.secondary} />
+            <Text style={styles.sectionTitle}>Insights</Text>
+          </View>
+          {insights.map((insight, index) => (
+            <View key={index} style={styles.insightItem}>
+              {insight.icon}
+              <Text style={styles.insightText}>{insight.text}</Text>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+
+
+================================================
+FILE: components/ContactDetails.tsx
+================================================
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Linking,
+  Platform,
+} from 'react-native';
+import {
+  X,
+  Phone,
+  Mail,
+  MessageCircle as SMS,
+  MapPin,
+  Building2,
+  Calendar,
+  Heart,
+  ExternalLink,
+  MessageCircle,
+} from 'lucide-react-native';
+import * as Haptics from 'expo-haptics';
+import * as WebBrowser from 'expo-web-browser';
+import { Contact } from '@/types/contact';
+import { useTheme } from '@/hooks/useTheme';
+
+interface ContactDetailsProps {
+  contact: Contact | null;
+  visible: boolean;
+  onClose: () => void;
+  onFavoriteToggle: () => void;
+}
+
+export function ContactDetails({ 
+  contact, 
+  visible, 
+  onClose, 
+  onFavoriteToggle 
+}: ContactDetailsProps) {
+  const { colors } = useTheme();
+
+  if (!contact) return null;
+
+  const handleAction = async (action: () => Promise<void>) => {
+    if (Platform.OS !== 'web') {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+    await action();
+  };
+
+  const handleCall = async (phoneNumber: string) => {
+    await handleAction(async () => {
+      const url = `tel:${phoneNumber}`;
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        await Linking.openURL(url);
+      }
+    });
+  };
+
+  const handleSMS = async (phoneNumber: string) => {
+    await handleAction(async () => {
+      const url = `sms:${phoneNumber}`;
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        await Linking.openURL(url);
+      }
+    });
+  };
+
+  const handleWhatsApp = async (phoneNumber: string) => {
+    await handleAction(async () => {
+      const cleanNumber = phoneNumber.replace(/[^\d+]/g, '');
+      const url = `whatsapp://send?phone=${cleanNumber}`;
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        await Linking.openURL(url);
+      } else {
+        // Fallback to web WhatsApp
+        await WebBrowser.openBrowserAsync(`https://wa.me/${cleanNumber}`);
+      }
+    });
+  };
+
+  const handleEmail = async (email: string) => {
+    await handleAction(async () => {
+      const url = `mailto:${email}`;
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        await Linking.openURL(url);
+      }
+    });
+  };
+
+  const openInDefaultApp = async () => {
+    await handleAction(async () => {
+      // This would open the contact in the default contacts app
+      // Implementation depends on platform-specific deep links
+      console.log('Opening in default contacts app');
+    });
+  };
+
+  const handleFavoriteToggle = async () => {
+    if (Platform.OS !== 'web') {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+    onFavoriteToggle();
+  };
+
+  const getInitials = (name: string) => {
+    return name.split(' ').map(part => part[0]).join('').toUpperCase().slice(0, 2);
+  };
+
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
+  };
+
+  const styles = StyleSheet.create({
+    overlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modal: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    headerTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    headerActions: {
+      flexDirection: 'row',
+    },
+    headerButton: {
+      padding: 8,
+      marginLeft: 8,
+    },
+    content: {
+      flex: 1,
+    },
+    profileSection: {
+      alignItems: 'center',
+      padding: 24,
+      backgroundColor: colors.surface,
+    },
+    avatar: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      backgroundColor: colors.surfaceVariant,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 16,
+    },
+    avatarImage: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+    },
+    avatarText: {
+      fontSize: 24,
+      fontWeight: '600',
+      color: colors.primary,
+    },
+    name: {
+      fontSize: 24,
+      fontWeight: '600',
+      color: colors.text,
+      textAlign: 'center',
+      marginBottom: 4,
+    },
+    jobTitle: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    section: {
+      backgroundColor: colors.surface,
+      marginTop: 12,
+      paddingVertical: 8,
+    },
+    sectionTitle: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.textSecondary,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+    },
+    contactItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    lastItem: {
+      borderBottomWidth: 0,
+    },
+    contactIcon: {
+      marginRight: 16,
+    },
+    contactInfo: {
+      flex: 1,
+    },
+    contactValue: {
+      fontSize: 16,
+      color: colors.text,
+      marginBottom: 2,
+    },
+    contactLabel: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    actionButton: {
+      padding: 8,
+    },
+    notesSection: {
+      backgroundColor: colors.surface,
+      marginTop: 12,
+      padding: 16,
+    },
+    notes: {
+      fontSize: 14,
+      color: colors.text,
+      lineHeight: 20,
+    },
+    tags: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      backgroundColor: colors.surface,
+      marginTop: 12,
+      padding: 16,
+    },
+    tag: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 16,
+      marginRight: 8,
+      marginBottom: 8,
+    },
+    tagText: {
+      fontSize: 12,
+      color: '#FFFFFF',
+      fontWeight: '500',
+    },
+    metaSection: {
+      backgroundColor: colors.surface,
+      marginTop: 12,
+      padding: 16,
+    },
+    metaItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    metaText: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginLeft: 8,
+    },
+    quickActions: {
+      flexDirection: 'row',
+      padding: 16,
+      backgroundColor: colors.surface,
+      marginTop: 12,
+    },
+    quickActionButton: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      marginHorizontal: 4,
+      borderRadius: 8,
+      backgroundColor: colors.primary,
+    },
+    quickActionText: {
+      fontSize: 14,
+      color: '#FFFFFF',
+      marginLeft: 8,
+      fontWeight: '600',
+    },
+  });
+
+  return (
+    <Modal visible={visible} animationType="slide" presentationStyle="fullScreen">
+      <SafeAreaView style={styles.modal}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Contact Details</Text>
+          <View style={styles.headerActions}>
+            <TouchableOpacity 
+              style={styles.headerButton} 
+              onPress={handleFavoriteToggle}
+              activeOpacity={0.7}
+            >
+              <Heart 
+                size={24} 
+                color={contact.isFavorite ? colors.error : colors.textSecondary}
+                fill={contact.isFavorite ? colors.error : 'transparent'}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.headerButton} 
+              onPress={openInDefaultApp}
+              activeOpacity={0.7}
+            >
+              <ExternalLink size={24} color={colors.textSecondary} />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.headerButton} 
+              onPress={onClose}
+              activeOpacity={0.7}
+            >
+              <X size={24} color={colors.text} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+          <View style={styles.profileSection}>
+            <View style={styles.avatar}>
+              {contact.imageUri ? (
+                <Image source={{ uri: contact.imageUri }} style={styles.avatarImage} />
+              ) : (
+                <Text style={styles.avatarText}>{getInitials(contact.name)}</Text>
+              )}
+            </View>
+            <Text style={styles.name}>{contact.name}</Text>
+            {(contact.company || contact.jobTitle) && (
+              <Text style={styles.jobTitle}>
+                {contact.jobTitle} {contact.company && contact.jobTitle ? 'at' : ''} {contact.company}
+              </Text>
+            )}
+          </View>
+
+          {contact.phoneNumbers.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Phone Numbers</Text>
+              {contact.phoneNumbers.map((phone, index) => (
+                <View 
+                  key={phone.id} 
+                  style={[
+                    styles.contactItem,
+                    index === contact.phoneNumbers.length - 1 && styles.lastItem,
+                  ]}
+                >
+                  <Phone size={20} color={colors.primary} style={styles.contactIcon} />
+                  <View style={styles.contactInfo}>
+                    <Text style={styles.contactValue}>{phone.number}</Text>
+                    <Text style={styles.contactLabel}>{phone.label}</Text>
+                  </View>
+                  <TouchableOpacity 
+                    style={styles.actionButton}
+                    onPress={() => handleCall(phone.number)}
+                    activeOpacity={0.7}
+                  >
+                    <Phone size={20} color={colors.primary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={styles.actionButton}
+                    onPress={() => handleSMS(phone.number)}
+                    activeOpacity={0.7}
+                  >
+                    <SMS size={20} color={colors.primary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={styles.actionButton}
+                    onPress={() => handleWhatsApp(phone.number)}
+                    activeOpacity={0.7}
+                  >
+                    <MessageCircle size={20} color={colors.success} />
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {contact.emails.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Emails</Text>
+              {contact.emails.map((email, index) => (
+                <TouchableOpacity 
+                  key={email.id}
+                  style={[
+                    styles.contactItem,
+                    index === contact.emails.length - 1 && styles.lastItem,
+                  ]}
+                  onPress={() => handleEmail(email.email)}
+                  activeOpacity={0.7}
+                >
+                  <Mail size={20} color={colors.primary} style={styles.contactIcon} />
+                  <View style={styles.contactInfo}>
+                    <Text style={styles.contactValue}>{email.email}</Text>
+                    <Text style={styles.contactLabel}>{email.label}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+
+          {contact.addresses.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Addresses</Text>
+              {contact.addresses.map((address, index) => (
+                <View 
+                  key={address.id}
+                  style={[
+                    styles.contactItem,
+                    index === contact.addresses.length - 1 && styles.lastItem,
+                  ]}
+                >
+                  <MapPin size={20} color={colors.primary} style={styles.contactIcon} />
+                  <View style={styles.contactInfo}>
+                    <Text style={styles.contactValue}>
+                      {[address.street, address.city, address.state, address.postalCode, address.country]
+                        .filter(Boolean)
+                        .join(', ')}
+                    </Text>
+                    <Text style={styles.contactLabel}>{address.label}</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {contact.notes && (
+            <View style={styles.notesSection}>
+              <Text style={styles.sectionTitle}>Notes</Text>
+              <Text style={styles.notes}>{contact.notes}</Text>
+            </View>
+          )}
+
+          {contact.tags.length > 0 && (
+            <View style={styles.tags}>
+              <Text style={styles.sectionTitle}>Tags</Text>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                {contact.tags.map((tag, index) => (
+                  <View key={index} style={styles.tag}>
+                    <Text style={styles.tagText}>{tag}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
+
+          <View style={styles.metaSection}>
+            <Text style={styles.sectionTitle}>Information</Text>
+            <View style={styles.metaItem}>
+              <Building2 size={16} color={colors.textSecondary} />
+              <Text style={styles.metaText}>Source: {contact.source.name}</Text>
+            </View>
+            <View style={styles.metaItem}>
+              <Calendar size={16} color={colors.textSecondary} />
+              <Text style={styles.metaText}>Created: {formatDate(contact.createdAt)}</Text>
+            </View>
+            <View style={styles.metaItem}>
+              <Calendar size={16} color={colors.textSecondary} />
+              <Text style={styles.metaText}>Modified: {formatDate(contact.modifiedAt)}</Text>
+            </View>
+          </View>
+
+          {contact.phoneNumbers.length > 0 && (
+            <View style={styles.quickActions}>
+              <TouchableOpacity 
+                style={styles.quickActionButton}
+                onPress={() => handleCall(contact.phoneNumbers[0].number)}
+                activeOpacity={0.8}
+              >
+                <Phone size={20} color="#FFFFFF" />
+                <Text style={styles.quickActionText}>Call</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.quickActionButton}
+                onPress={() => handleSMS(contact.phoneNumbers[0].number)}
+                activeOpacity={0.8}
+              >
+                <SMS size={20} color="#FFFFFF" />
+                <Text style={styles.quickActionText}>Message</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.quickActionButton}
+                onPress={() => handleWhatsApp(contact.phoneNumbers[0].number)}
+                activeOpacity={0.8}
+              >
+                <MessageCircle size={20} color="#FFFFFF" />
+                <Text style={styles.quickActionText}>WhatsApp</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </Modal>
+  );
+}
+
+
+================================================
+FILE: components/ContactItem.tsx
+================================================
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Platform } from 'react-native';
+import { Phone, Heart, Clock, MessageCircle } from 'lucide-react-native';
+import * as Linking from 'expo-linking';
+import * as Haptics from 'expo-haptics';
+import * as WebBrowser from 'expo-web-browser';
+import { Contact } from '@/types/contact';
+import { useTheme } from '@/hooks/useTheme';
+
+interface ContactItemProps {
+  contact: Contact;
+  onPress: () => void;
+  onFavoriteToggle: () => void;
+  compact?: boolean;
+}
+
+export function ContactItem({ contact, onPress, onFavoriteToggle, compact = true }: ContactItemProps) {
+  const { colors } = useTheme();
+
+  const handleCall = async (phoneNumber: string) => {
+    if (Platform.OS !== 'web') {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+    const url = `tel:${phoneNumber}`;
+    const canOpen = await Linking.canOpenURL(url);
+    if (canOpen) {
+      await Linking.openURL(url);
+    }
+  };
+
+  const handleWhatsApp = async (phoneNumber: string) => {
+    if (Platform.OS !== 'web') {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+    const cleanNumber = phoneNumber.replace(/[^\d+]/g, '');
+    const url = `whatsapp://send?phone=${cleanNumber}`;
+    const canOpen = await Linking.canOpenURL(url);
+    if (canOpen) {
+      await Linking.openURL(url);
+    } else {
+      // Fallback to web WhatsApp
+      await WebBrowser.openBrowserAsync(`https://wa.me/${cleanNumber}`);
+    }
+  };
+
+  const handleFavoriteToggle = async () => {
+    if (Platform.OS !== 'web') {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+    onFavoriteToggle();
+  };
+
+  const primaryPhone = contact.phoneNumbers.find(p => p.isPrimary) || contact.phoneNumbers[0];
+  
+  const formatDate = (date: Date) => {
+    const now = new Date();
+    const contactDate = new Date(date);
+    const diffMs = now.getTime() - contactDate.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+    if (diffDays < 365) return `${Math.floor(diffDays / 30)}mo ago`;
+    return contactDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  };
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.surface,
+      marginHorizontal: 16,
+      marginVertical: 1,
+      borderRadius: 12,
+      elevation: 2,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    content: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 12,
+      minHeight: 64,
+    },
+    avatar: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.surfaceVariant,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+    avatarImage: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+    },
+    avatarText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.primary,
+    },
+    contactInfo: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    topRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 2,
+    },
+    contactName: {
+      fontSize: 15,
+      fontWeight: '600',
+      color: colors.text,
+      flex: 1,
+    },
+    dateText: {
+      fontSize: 11,
+      color: colors.textSecondary,
+      marginLeft: 8,
+    },
+    bottomRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    phoneText: {
+      fontSize: 13,
+      color: colors.textSecondary,
+      flex: 1,
+    },
+    actions: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    actionButton: {
+      padding: 6,
+      marginLeft: 4,
+    },
+    callButton: {
+      padding: 6,
+      marginLeft: 4,
+    },
+    whatsappButton: {
+      padding: 6,
+      marginLeft: 4,
+    },
+    favoriteButton: {
+      padding: 6,
+      marginLeft: 4,
+    },
+  });
+
+  const getInitials = (name: string) => {
+    return name.split(' ').map(part => part[0]).join('').toUpperCase().slice(0, 2);
+  };
+
+  return (
+    <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.7}>
+      <View style={styles.content}>
+        <View style={styles.avatar}>
+          {contact.imageUri ? (
+            <Image source={{ uri: contact.imageUri }} style={styles.avatarImage} />
+          ) : (
+            <Text style={styles.avatarText}>{getInitials(contact.name)}</Text>
+          )}
+        </View>
+        <View style={styles.contactInfo}>
+          <View style={styles.topRow}>
+            <Text style={styles.contactName} numberOfLines={1}>{contact.name}</Text>
+            <Text style={styles.dateText}>{formatDate(contact.modifiedAt)}</Text>
+          </View>
+          <View style={styles.bottomRow}>
+            <Text style={styles.phoneText} numberOfLines={1}>
+              {primaryPhone ? primaryPhone.number : 'No phone number'}
+            </Text>
+            <View style={styles.actions}>
+              {primaryPhone && (
+                <>
+                  <TouchableOpacity 
+                    style={styles.callButton} 
+                    onPress={() => handleCall(primaryPhone.number)}
+                    activeOpacity={0.7}
+                  >
+                    <Phone size={16} color={colors.primary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={styles.whatsappButton} 
+                    onPress={() => handleWhatsApp(primaryPhone.number)}
+                    activeOpacity={0.7}
+                  >
+                    <MessageCircle size={16} color={colors.success} />
+                  </TouchableOpacity>
+                </>
+              )}
+              <TouchableOpacity 
+                style={styles.favoriteButton} 
+                onPress={handleFavoriteToggle}
+                activeOpacity={0.7}
+              >
+                <Heart 
+                  size={16} 
+                  color={contact.isFavorite ? colors.error : colors.textTertiary}
+                  fill={contact.isFavorite ? colors.error : 'transparent'}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
+
+================================================
+FILE: components/ContactList.tsx
+================================================
+import React, { useMemo, useCallback } from 'react';
+import { FlatList, View, Text, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native';
+import { Contact } from '@/types/contact';
+import { ContactItem } from './ContactItem';
+import { useTheme } from '@/hooks/useTheme';
+
+interface ContactListProps {
+  contacts: Contact[];
+  hasMore: boolean;
+  onContactPress: (contact: Contact) => void;
+  onFavoriteToggle: (contactId: string) => void;
+  onRefresh: () => void;
+  onLoadMore: () => void;
+  refreshing: boolean;
+  loading: boolean;
+  loadingMore: boolean;
+}
+
+export function ContactList({ 
+  contacts, 
+  hasMore,
+  onContactPress, 
+  onFavoriteToggle, 
+  onRefresh,
+  onLoadMore,
+  refreshing,
+  loading,
+  loadingMore,
+}: ContactListProps) {
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    emptyContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 32,
+    },
+    emptyText: {
+      fontSize: 18,
+      color: colors.textSecondary,
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+    emptySubtext: {
+      fontSize: 14,
+      color: colors.textTertiary,
+      textAlign: 'center',
+    },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    loadingText: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      marginTop: 16,
+    },
+    loadingMoreContainer: {
+      paddingVertical: 20,
+      alignItems: 'center',
+    },
+    loadingMoreText: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginTop: 8,
+    },
+  });
+
+  const renderContact = useCallback(({ item }: { item: Contact }) => (
+    <ContactItem
+      contact={item}
+      onPress={() => onContactPress(item)}
+      onFavoriteToggle={() => onFavoriteToggle(item.id)}
+      compact={true}
+    />
+  ), [onContactPress, onFavoriteToggle]);
+
+  const renderFooter = useCallback(() => {
+    if (!loadingMore || !hasMore) return null;
+    
+    return (
+      <View style={styles.loadingMoreContainer}>
+        <ActivityIndicator size="small" color={colors.primary} />
+        <Text style={styles.loadingMoreText}>Loading more contacts...</Text>
+      </View>
+    );
+  }, [loadingMore, hasMore, colors.primary, colors.textSecondary]);
+  const keyExtractor = (item: Contact) => item.id;
+
+  const getItemLayout = (_: any, index: number) => ({
+    length: 68, // Updated compact item height
+    offset: 68 * index,
+    index,
+  });
+
+  const handleEndReached = useCallback(() => {
+    if (hasMore && !loadingMore) {
+      onLoadMore();
+    }
+  }, [hasMore, loadingMore, onLoadMore]);
+  if (loading && contacts.length === 0) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={styles.loadingText}>Loading contacts...</Text>
+      </View>
+    );
+  }
+
+  if (contacts.length === 0) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>No contacts found</Text>
+        <Text style={styles.emptySubtext}>
+          Try adjusting your search or import contacts from your device
+        </Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={contacts}
+        renderItem={renderContact}
+        keyExtractor={keyExtractor}
+        getItemLayout={getItemLayout}
+        ListFooterComponent={renderFooter}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={20}
+        updateCellsBatchingPeriod={50}
+        initialNumToRender={25}
+        windowSize={15}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary]}
+            tintColor={colors.primary}
+          />
+        }
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingVertical: 4 }}
+      />
+    </View>
+  );
+}
+
+
+================================================
+FILE: components/FilterBar.tsx
+================================================
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { SlidersHorizontal, Users, Clock } from 'lucide-react-native';
+import { SearchFilters, ContactStats } from '@/types/contact';
+import { useTheme } from '@/hooks/useTheme';
+
+interface FilterBarProps {
+  filters: SearchFilters;
+  stats: ContactStats;
+  lastSyncTime: Date | null;
+  onFilterPress: () => void;
+  onSourceFilter: (source: string | undefined) => void;
+}
+
+export function FilterBar({ 
+  filters, 
+  stats, 
+  lastSyncTime,
+  onFilterPress, 
+  onSourceFilter 
+}: FilterBarProps) {
+  const { colors } = useTheme();
+
+  const formatLastSync = (date: Date | null) => {
+    if (!date) return 'Never';
+    
+    const now = new Date();
+    const diffMs = now.getTime() - new Date(date).getTime();
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    
+    if (diffMinutes < 1) return 'Just now';
+    if (diffMinutes < 60) return `${diffMinutes}m ago`;
+    
+    const diffHours = Math.floor(diffMinutes / 60);
+    if (diffHours < 24) return `${diffHours}h ago`;
+    
+    const diffDays = Math.floor(diffHours / 24);
+    if (diffDays < 7) return `${diffDays}d ago`;
+    
+    return date.toLocaleDateString();
+  };
+
+  const getLatestContactDate = (sourceType: string) => {
+    // Return the most recent modification date for contacts from this source
+    // For now, using lastSyncTime as approximation
+    return lastSyncTime;
+  };
+
+  const sources = [
+    { 
+      key: 'all', 
+      label: 'All', 
+      count: stats.total,
+      lastUpdated: getLatestContactDate('all'),
+    },
+    { 
+      key: 'device', 
+      label: 'Device', 
+      count: stats.bySource.device || 0,
+      lastUpdated: getLatestContactDate('device'),
+    },
+    { 
+      key: 'favorites', 
+      label: 'Favorites', 
+      count: stats.favorites,
+      lastUpdated: getLatestContactDate('favorites'),
+    },
+  ];
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.surface,
+      paddingVertical: 8,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+      elevation: 2,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    scrollContainer: {
+      paddingHorizontal: 16,
+    },
+    filterChip: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      paddingHorizontal: 10,
+      paddingVertical: 6,
+      marginRight: 8,
+      borderRadius: 20,
+      backgroundColor: colors.surfaceVariant,
+      minWidth: 75,
+    },
+    activeFilterChip: {
+      backgroundColor: colors.primary,
+    },
+    filterLabel: {
+      fontSize: 12,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 1,
+    },
+    activeFilterLabel: {
+      color: '#FFFFFF',
+    },
+    filterCount: {
+      fontSize: 13,
+      fontWeight: 'bold',
+      color: colors.primary,
+    },
+    activeFilterCount: {
+      color: '#FFFFFF',
+    },
+    filterTime: {
+      fontSize: 10,
+      color: colors.textTertiary,
+      marginTop: 1,
+    },
+    activeFilterTime: {
+      color: 'rgba(255, 255, 255, 0.8)',
+    },
+    moreFiltersButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 10,
+      paddingVertical: 6,
+      borderRadius: 20,
+      backgroundColor: colors.surfaceVariant,
+      marginLeft: 8,
+    },
+    moreFiltersText: {
+      fontSize: 12,
+      fontWeight: '600',
+      color: colors.primary,
+      marginLeft: 4,
+    },
+  });
+
+  const isActive = (sourceKey: string) => {
+    if (sourceKey === 'all') return !filters.source && !filters.showFavoritesOnly;
+    if (sourceKey === 'favorites') return filters.showFavoritesOnly;
+    return filters.source === sourceKey;
+  };
+
+  const handleSourcePress = (sourceKey: string) => {
+    if (sourceKey === 'all') {
+      onSourceFilter(undefined);
+    } else if (sourceKey === 'favorites') {
+      onSourceFilter(undefined);
+      // This would trigger the favorites filter
+    } else {
+      onSourceFilter(sourceKey);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContainer}
+      >
+        {sources.map((source) => {
+          const active = isActive(source.key);
+          return (
+            <TouchableOpacity
+              key={source.key}
+              style={[
+                styles.filterChip,
+                active && styles.activeFilterChip,
+              ]}
+              onPress={() => handleSourcePress(source.key)}
+              activeOpacity={0.7}
+            >
+              <Text style={[
+                styles.filterLabel,
+                active && styles.activeFilterLabel,
+              ]}>
+                {source.label}
+              </Text>
+              <Text style={[
+                styles.filterCount,
+                active && styles.activeFilterCount,
+              ]}>
+                {source.count.toLocaleString()}
+              </Text>
+              <Text style={[
+                styles.filterTime,
+                active && styles.activeFilterTime,
+              ]}>
+                {formatLastSync(source.lastUpdated)}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+        
+        <TouchableOpacity
+          style={styles.moreFiltersButton}
+          onPress={onFilterPress}
+          activeOpacity={0.7}
+        >
+          <SlidersHorizontal size={16} color={colors.primary} />
+          <Text style={styles.moreFiltersText}>More</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+  );
+}
+
+
+================================================
+FILE: components/FilterModal.tsx
+================================================
+import React from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  Switch,
+} from 'react-native';
+import { X, Check } from 'lucide-react-native';
+import { SearchFilters } from '@/types/contact';
+import { useTheme } from '@/hooks/useTheme';
+
+interface FilterModalProps {
+  visible: boolean;
+  filters: SearchFilters;
+  onFiltersChange: (filters: Partial<SearchFilters>) => void;
+  onClose: () => void;
+  sources: string[];
+}
+
+export function FilterModal({ 
+  visible, 
+  filters, 
+  onFiltersChange, 
+  onClose, 
+  sources 
+}: FilterModalProps) {
+  const { colors } = useTheme();
+
+  const sortOptions = [
+    { value: 'name', label: 'Name' },
+    { value: 'createdAt', label: 'Date Added' },
+    { value: 'modifiedAt', label: 'Last Modified' },
+  ] as const;
+
+  const orderOptions = [
+    { value: 'asc', label: 'Ascending' },
+    { value: 'desc', label: 'Descending' },
+  ] as const;
+
+  const sourceOptions = [
+    { value: 'all', label: 'All Sources' },
+    ...sources.map(source => ({ value: source, label: source })),
+  ];
+
+  const styles = StyleSheet.create({
+    overlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'flex-end',
+    },
+    modal: {
+      backgroundColor: colors.surface,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      maxHeight: '80%',
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    closeButton: {
+      padding: 4,
+    },
+    content: {
+      padding: 16,
+    },
+    section: {
+      marginBottom: 24,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 12,
+    },
+    option: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      borderRadius: 8,
+      marginBottom: 8,
+    },
+    selectedOption: {
+      backgroundColor: colors.surfaceVariant,
+    },
+    optionText: {
+      fontSize: 14,
+      color: colors.text,
+      flex: 1,
+    },
+    switchRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: 12,
+    },
+    switchLabel: {
+      fontSize: 14,
+      color: colors.text,
+      flex: 1,
+    },
+    actions: {
+      flexDirection: 'row',
+      padding: 16,
+      borderTopWidth: 1,
+      borderTopColor: colors.outline,
+    },
+    resetButton: {
+      flex: 1,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      borderRadius: 8,
+      alignItems: 'center',
+      marginHorizontal: 4,
+      backgroundColor: colors.surfaceVariant,
+    },
+    applyButton: {
+      flex: 1,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      borderRadius: 8,
+      alignItems: 'center',
+      marginHorizontal: 4,
+      backgroundColor: colors.primary,
+    },
+    buttonText: {
+      fontSize: 14,
+      fontWeight: '600',
+    },
+    resetButtonText: {
+      color: colors.text,
+    },
+    applyButtonText: {
+      color: '#FFFFFF',
+    },
+  });
+
+  const resetFilters = () => {
+    onFiltersChange({
+      source: undefined,
+      sortBy: 'name',
+      sortOrder: 'asc',
+      showFavoritesOnly: false,
+    });
+  };
+
+  return (
+    <Modal visible={visible} transparent animationType="slide">
+      <View style={styles.overlay}>
+        <SafeAreaView style={styles.modal}>
+          <View style={styles.header}>
+            <Text style={styles.title}>Filter & Sort</Text>
+            <TouchableOpacity style={styles.closeButton} onPress={onClose} activeOpacity={0.7}>
+              <X size={24} color={colors.text} />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Sort By</Text>
+              {sortOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.value}
+                  style={[
+                    styles.option,
+                    filters.sortBy === option.value && styles.selectedOption,
+                  ]}
+                  onPress={() => onFiltersChange({ sortBy: option.value })}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.optionText}>{option.label}</Text>
+                  {filters.sortBy === option.value && (
+                    <Check size={20} color={colors.primary} />
+                  )}
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Sort Order</Text>
+              {orderOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.value}
+                  style={[
+                    styles.option,
+                    filters.sortOrder === option.value && styles.selectedOption,
+                  ]}
+                  onPress={() => onFiltersChange({ sortOrder: option.value })}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.optionText}>{option.label}</Text>
+                  {filters.sortOrder === option.value && (
+                    <Check size={20} color={colors.primary} />
+                  )}
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Source</Text>
+              {sourceOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.value}
+                  style={[
+                    styles.option,
+                    (filters.source || 'all') === option.value && styles.selectedOption,
+                  ]}
+                  onPress={() => onFiltersChange({ 
+                    source: option.value === 'all' ? undefined : option.value 
+                  })}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.optionText}>{option.label}</Text>
+                  {(filters.source || 'all') === option.value && (
+                    <Check size={20} color={colors.primary} />
+                  )}
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <View style={styles.section}>
+              <View style={styles.switchRow}>
+                <Text style={styles.switchLabel}>Show favorites only</Text>
+                <Switch
+                  value={filters.showFavoritesOnly}
+                  onValueChange={(value) => onFiltersChange({ showFavoritesOnly: value })}
+                  trackColor={{ false: colors.outline, true: colors.primary }}
+                  thumbColor={colors.surface}
+                />
+              </View>
+            </View>
+          </ScrollView>
+
+          <View style={styles.actions}>
+            <TouchableOpacity 
+              style={styles.resetButton}
+              onPress={resetFilters}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.buttonText, styles.resetButtonText]}>Reset</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.applyButton}
+              onPress={onClose}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.buttonText, styles.applyButtonText]}>Apply</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </View>
+    </Modal>
+  );
+}
+
+
+================================================
+FILE: components/SearchBar.tsx
+================================================
+import React from 'react';
+import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Search, X, Filter } from 'lucide-react-native';
+import { useTheme } from '@/hooks/useTheme';
+
+interface SearchBarProps {
+  value: string;
+  onChangeText: (text: string) => void;
+  onClear: () => void;
+  onFilterPress: () => void;
+  placeholder?: string;
+}
+
+export function SearchBar({ 
+  value, 
+  onChangeText, 
+  onClear, 
+  onFilterPress,
+  placeholder = 'Search contacts...' 
+}: SearchBarProps) {
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      marginHorizontal: 16,
+      marginVertical: 8,
+      borderRadius: 12,
+      paddingHorizontal: 12,
+      elevation: 2,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    searchIcon: {
+      marginRight: 8,
+    },
+    input: {
+      flex: 1,
+      height: 48,
+      fontSize: 16,
+      color: colors.text,
+    },
+    clearButton: {
+      padding: 4,
+      marginLeft: 8,
+    },
+    filterButton: {
+      padding: 8,
+      marginLeft: 4,
+    },
+  });
+
+  return (
+    <View style={styles.container}>
+      <Search size={20} color={colors.textSecondary} style={styles.searchIcon} />
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={colors.textTertiary}
+        returnKeyType="search"
+        autoCapitalize="none"
+        autoCorrect={false}
+      />
+      {value.length > 0 && (
+        <TouchableOpacity style={styles.clearButton} onPress={onClear} activeOpacity={0.7}>
+          <X size={20} color={colors.textSecondary} />
+        </TouchableOpacity>
+      )}
+      <TouchableOpacity style={styles.filterButton} onPress={onFilterPress} activeOpacity={0.7}>
+        <Filter size={20} color={colors.primary} />
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+
+================================================
+FILE: components/StatsCard.tsx
+================================================
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { ContactStats } from '@/types/contact';
+import { useTheme } from '@/hooks/useTheme';
+import { Users, Heart, Image, Database } from 'lucide-react-native';
+
+interface StatsCardProps {
+  stats: ContactStats;
+}
+
+export function StatsCard({ stats }: StatsCardProps) {
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.surface,
+      marginHorizontal: 16,
+      marginVertical: 8,
+      borderRadius: 12,
+      padding: 16,
+      elevation: 2,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 12,
+    },
+    grid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    statItem: {
+      width: '48%',
+      alignItems: 'center',
+      paddingVertical: 8,
+      marginBottom: 8,
+    },
+    statValue: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.primary,
+      marginTop: 4,
+    },
+    statLabel: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      textAlign: 'center',
+      marginTop: 2,
+    },
+  });
+
+  const statItems = [
+    {
+      icon: <Users size={20} color={colors.primary} />,
+      value: stats.total.toLocaleString(),
+      label: 'Total Contacts',
+    },
+    {
+      icon: <Heart size={20} color={colors.error} />,
+      value: stats.favorites.toLocaleString(),
+      label: 'Favorites',
+    },
+    {
+      icon: <Image size={20} color={colors.secondary} />,
+      value: stats.withPhotos.toLocaleString(),
+      label: 'With Photos',
+    },
+    {
+      icon: <Database size={20} color={colors.accent} />,
+      value: Object.keys(stats.bySource).length.toString(),
+      label: 'Sources',
+    },
+  ];
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Contact Statistics</Text>
+      <View style={styles.grid}>
+        {statItems.map((item, index) => (
+          <View key={index} style={styles.statItem}>
+            {item.icon}
+            <Text style={styles.statValue}>{item.value}</Text>
+            <Text style={styles.statLabel}>{item.label}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+
+================================================
+FILE: hooks/useContacts.ts
+================================================
+{"code":"rate-limited","message":"You have hit the rate limit. Please upgrade to keep chatting.","providerLimitHit":false,"isRetryable":true}
+
+
+================================================
+FILE: hooks/useDebounce.ts
+================================================
+import { useState, useEffect } from 'react';
+
+export function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+
+================================================
+FILE: hooks/useFrameworkReady.ts
+================================================
+import { useEffect } from 'react';
+
+declare global {
+  interface Window {
+    frameworkReady?: () => void;
+  }
+}
+
+export function useFrameworkReady() {
+  useEffect(() => {
+    window.frameworkReady?.();
+  });
+}
+
+
+
+================================================
+FILE: hooks/useTheme.ts
+================================================
+import { useState, useEffect } from 'react';
+import { Appearance, ColorSchemeName, Dimensions } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const THEME_STORAGE_KEY = 'app_theme';
+
+export type ThemeMode = 'light' | 'dark' | 'auto';
+
+export function useTheme() {
+  const [themeMode, setThemeMode] = useState<ThemeMode>('auto');
+  const [systemColorScheme, setSystemColorScheme] = useState<ColorSchemeName>(
+    Appearance.getColorScheme()
+  );
+  const [screenData, setScreenData] = useState(Dimensions.get('window'));
+
+  const isDark = themeMode === 'dark' || 
+    (themeMode === 'auto' && systemColorScheme === 'dark');
+
+  const colors = isDark ? darkColors : lightColors;
+
+  // Load saved theme on mount
+  useEffect(() => {
+    const loadTheme = async () => {
+      try {
+        const savedTheme = await AsyncStorage.getItem(THEME_STORAGE_KEY);
+        if (savedTheme) {
+          setThemeMode(savedTheme as ThemeMode);
+        }
+      } catch (err) {
+        console.warn('Failed to load theme:', err);
+      }
+    };
+
+    loadTheme();
+
+    // Listen for system theme changes
+    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
+      setSystemColorScheme(colorScheme);
+    });
+
+    // Listen for screen dimension changes
+    const dimensionSubscription = Dimensions.addEventListener('change', ({ window }) => {
+      setScreenData(window);
+    });
+    return () => {
+      subscription?.remove();
+      dimensionSubscription?.remove();
+    };
+  }, []);
+
+  const changeTheme = async (mode: ThemeMode) => {
+    setThemeMode(mode);
+    try {
+      await AsyncStorage.setItem(THEME_STORAGE_KEY, mode);
+    } catch (err) {
+      console.warn('Failed to save theme:', err);
+    }
+  };
+
+  return {
+    themeMode,
+    isDark,
+    colors,
+    screenData,
+    changeTheme,
+  };
+}
+
+const lightColors = {
+  primary: '#2196F3',
+  secondary: '#009688',
+  accent: '#FF9800',
+  success: '#4CAF50',
+  warning: '#FF9800',
+  error: '#F44336',
+  background: '#F8F9FA',
+  surface: '#FFFFFF',
+  surfaceVariant: '#F5F5F5',
+  onSurface: '#212121',
+  onSurfaceVariant: '#757575',
+  outline: '#E0E0E0',
+  shadow: '#000000',
+  text: '#212121',
+  textSecondary: '#757575',
+  textTertiary: '#9E9E9E',
+};
+
+const darkColors = {
+  primary: '#64B5F6',
+  secondary: '#4DB6AC',
+  accent: '#FFB74D',
+  success: '#81C784',
+  warning: '#FFB74D',
+  error: '#E57373',
+  background: '#121212',
+  surface: '#1E1E1E',
+  surfaceVariant: '#2C2C2C',
+  onSurface: '#FFFFFF',
+  onSurfaceVariant: '#E0E0E0',
+  outline: '#404040',
+  shadow: '#000000',
+  text: '#FFFFFF',
+  textSecondary: '#E0E0E0',
+  textTertiary: '#BDBDBD',
+};
+
+
+================================================
+FILE: types/contact.ts
+================================================
+export interface Contact {
+  id: string;
+  name: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumbers: PhoneNumber[];
+  emails: Email[];
+  addresses: Address[];
+  jobTitle?: string;
+  company?: string;
+  notes?: string;
+  source: ContactSource;
+  imageUri?: string;
+  createdAt: Date;
+  modifiedAt: Date;
+  tags: string[];
+  isFavorite: boolean;
+}
+
+export interface PhoneNumber {
+  id: string;
+  number: string;
+  label: string;
+  isPrimary?: boolean;
+}
+
+export interface Email {
+  id: string;
+  email: string;
+  label: string;
+  isPrimary?: boolean;
+}
+
+export interface Address {
+  id: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
+  label: string;
+}
+
+export interface ContactSource {
+  type: 'device' | 'sim' | 'google' | 'exchange' | 'other';
+  name: string;
+  accountId?: string;
+}
+
+export interface SearchFilters {
+  query: string;
+  source?: string;
+  sortBy: 'name' | 'createdAt' | 'modifiedAt';
+  sortOrder: 'asc' | 'desc';
+  showFavoritesOnly: boolean;
+}
+
+export interface ContactStats {
+  total: number;
+  bySource: Record<string, number>;
+  favorites: number;
+  withPhotos: number;
+}
+
+
+================================================
+FILE: .bolt/config.json
+================================================
+{
+  "template": "bolt-expo"
+}
+
+
+

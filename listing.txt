@@ -1,0 +1,281 @@
+total 796
+drwxr-xr-x  12 kellyb_dev kellyb_dev   4096 Jul 18 23:47 .
+drwxr-xr-x   4 kellyb_dev kellyb_dev   4096 Jul 18 19:50 ..
+drwxr-xr-x   4 kellyb_dev kellyb_dev   4096 Jul 18 20:43 .expo
+drwxr-xr-x   8 kellyb_dev kellyb_dev   4096 Jul 18 19:50 .git
+-rw-r--r--   1 kellyb_dev kellyb_dev    301 Jul 18 19:50 .gitignore
+-rw-r--r--   1 kellyb_dev kellyb_dev     22 Jul 18 19:50 .npmrc
+-rw-r--r--   1 kellyb_dev kellyb_dev     89 Jul 18 19:50 .prettierrc
+-rw-r--r--   1 kellyb_dev kellyb_dev   4137 Jul 18 19:50 CHANGELOG.md
+-rw-r--r--   1 kellyb_dev kellyb_dev   7856 Jul 18 19:50 README.md
+-rw-r--r--   1 root       root        96061 Jul 18 20:27 Repository-techhypexp-hex-mob-contacts-by-date--18-7-2025.txt
+drwxr-xr-x   3 kellyb_dev kellyb_dev   4096 Jul 18 19:50 app
+-rw-r--r--   1 kellyb_dev kellyb_dev    571 Jul 18 20:32 app.json
+drwxr-xr-x   3 kellyb_dev kellyb_dev   4096 Jul 18 19:50 assets
+drwxr-xr-x   2 kellyb_dev kellyb_dev   4096 Jul 18 19:50 components
+drwxr-xr-x   2 root       root         4096 Jul 18 21:06 docs
+-rw-r--r--   1 kellyb_dev kellyb_dev    110 Jul 18 20:43 expo-env.d.ts
+drwxr-xr-x   2 kellyb_dev kellyb_dev   4096 Jul 18 19:50 hooks
+-rw-r--r--   1 kellyb_dev kellyb_dev      0 Jul 18 23:47 listing.txt
+drwxr-xr-x 457 kellyb_dev kellyb_dev  20480 Jul 18 23:27 node_modules
+-rw-r--r--   1 kellyb_dev kellyb_dev 344393 Jul 18 23:27 package-lock.json
+-rw-r--r--   1 kellyb_dev kellyb_dev   1712 Jul 18 21:09 package.json
+-rw-r--r--   1 kellyb_dev kellyb_dev 255559 Jul 18 19:52 pnpm-lock.yaml
+drwxr-xr-x   3 kellyb_dev kellyb_dev   4096 Jul 18 22:28 src
+-rw-r--r--   1 kellyb_dev kellyb_dev    253 Jul 18 19:50 tsconfig.json
+drwxr-xr-x   2 kellyb_dev kellyb_dev   4096 Jul 18 19:50 types
+-rw-r--r-- 1 kellyb_dev kellyb_dev 22 Jul 18 19:50 ./.npmrc
+-rw-r--r-- 1 kellyb_dev kellyb_dev 89 Jul 18 19:50 ./.prettierrc
+-rw-r--r-- 1 root root 96061 Jul 18 20:27 ./Repository-techhypexp-hex-mob-contacts-by-date--18-7-2025.txt
+-rw-r--r-- 1 kellyb_dev kellyb_dev 344393 Jul 18 23:27 ./package-lock.json
+-rw-r--r-- 1 kellyb_dev kellyb_dev 301 Jul 18 19:50 ./.gitignore
+-rw-r--r-- 1 kellyb_dev kellyb_dev 4137 Jul 18 19:50 ./CHANGELOG.md
+-rw-r--r-- 1 kellyb_dev kellyb_dev 110 Jul 18 20:43 ./expo-env.d.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 255559 Jul 18 19:52 ./pnpm-lock.yaml
+total 36
+drwxr-xr-x  2 kellyb_dev kellyb_dev  4096 Jul 18 19:50 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev  4096 Jul 18 23:47 ..
+-rw-r--r--  1 kellyb_dev kellyb_dev 12790 Jul 18 21:11 useContacts.ts
+-rw-r--r--  1 kellyb_dev kellyb_dev   385 Jul 18 19:50 useDebounce.ts
+-rw-r--r--  1 kellyb_dev kellyb_dev   211 Jul 18 19:50 useFrameworkReady.ts
+-rw-r--r--  1 kellyb_dev kellyb_dev  2653 Jul 18 19:50 useTheme.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 211 Jul 18 19:50 ./hooks/useFrameworkReady.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2653 Jul 18 19:50 ./hooks/useTheme.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 12790 Jul 18 21:11 ./hooks/useContacts.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 385 Jul 18 19:50 ./hooks/useDebounce.ts
+total 60
+drwxr-xr-x  2 kellyb_dev kellyb_dev  4096 Jul 18 19:50 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev  4096 Jul 18 23:47 ..
+-rw-r--r--  1 kellyb_dev kellyb_dev 15438 Jul 18 19:50 ContactDetails.tsx
+-rw-r--r--  1 kellyb_dev kellyb_dev  6466 Jul 18 21:11 ContactItem.tsx
+-rw-r--r--  1 kellyb_dev kellyb_dev  4092 Jul 18 19:50 ContactList.tsx
+-rw-r--r--  1 kellyb_dev kellyb_dev  5762 Jul 18 21:14 FilterBar.tsx
+-rw-r--r--  1 kellyb_dev kellyb_dev  7720 Jul 18 19:50 FilterModal.tsx
+-rw-r--r--  1 kellyb_dev kellyb_dev  2065 Jul 18 19:50 SearchBar.tsx
+-rw-r--r--  1 kellyb_dev kellyb_dev  2387 Jul 18 19:50 StatsCard.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 6466 Jul 18 21:11 ./components/ContactItem.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2065 Jul 18 19:50 ./components/SearchBar.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 7720 Jul 18 19:50 ./components/FilterModal.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 5762 Jul 18 21:14 ./components/FilterBar.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2387 Jul 18 19:50 ./components/StatsCard.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 4092 Jul 18 19:50 ./components/ContactList.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 15438 Jul 18 19:50 ./components/ContactDetails.tsx
+total 12
+drwxr-xr-x  3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev 4096 Jul 18 23:47 ..
+drwxr-xr-x  2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 images
+total 36
+drwxr-xr-x 2 kellyb_dev kellyb_dev  4096 Jul 18 19:50 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev  4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev  1466 Jul 18 19:50 favicon.png
+-rw-r--r-- 1 kellyb_dev kellyb_dev 22380 Jul 18 19:50 icon.png
+-rw-r--r-- 1 kellyb_dev kellyb_dev 22380 Jul 18 19:50 ./assets/images/icon.png
+-rw-r--r-- 1 kellyb_dev kellyb_dev 1466 Jul 18 19:50 ./assets/images/favicon.png
+total 12
+drwxr-xr-x  2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev 4096 Jul 18 23:47 ..
+-rw-r--r--  1 kellyb_dev kellyb_dev 1166 Jul 18 19:50 contact.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 1166 Jul 18 19:50 ./types/contact.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 1712 Jul 18 21:09 ./package.json
+-rw-r--r-- 1 kellyb_dev kellyb_dev 5120 Jul 18 23:47 ./listing.txt
+-rw-r--r-- 1 kellyb_dev kellyb_dev 253 Jul 18 19:50 ./tsconfig.json
+total 12
+drwxr-xr-x  3 kellyb_dev kellyb_dev 4096 Jul 18 22:28 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev 4096 Jul 18 23:47 ..
+drwxr-xr-x  2 kellyb_dev kellyb_dev 4096 Jul 18 22:29 config
+total 8
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 22:29 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 22:28 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev    0 Jul 18 22:32 frontend-config.json
+-rw-r--r-- 1 kellyb_dev kellyb_dev 0 Jul 18 22:32 ./src/config/frontend-config.json
+total 20
+drwxr-xr-x  2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 (tabs)
+-rw-r--r--  1 kellyb_dev kellyb_dev  708 Jul 18 19:50 +not-found.tsx
+drwxr-xr-x  3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev 4096 Jul 18 23:47 ..
+-rw-r--r--  1 kellyb_dev kellyb_dev  421 Jul 18 19:50 _layout.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 421 Jul 18 19:50 ./app/_layout.tsx
+total 40
+drwxr-xr-x 2 kellyb_dev kellyb_dev  4096 Jul 18 19:50 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev  4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev  2622 Jul 18 19:50 _layout.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev  4282 Jul 18 19:50 index.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 10930 Jul 18 19:50 settings.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev  6338 Jul 18 19:50 stats.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 6338 Jul 18 19:50 ./app/(tabs)/stats.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2622 Jul 18 19:50 ./app/(tabs)/_layout.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 10930 Jul 18 19:50 ./app/(tabs)/settings.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 4282 Jul 18 19:50 ./app/(tabs)/index.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 708 Jul 18 19:50 ./app/+not-found.tsx
+-rw-r--r-- 1 kellyb_dev kellyb_dev 571 Jul 18 20:32 ./app.json
+total 16
+drwxr-xr-x  2 root       root       4096 Jul 18 21:06 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev 4096 Jul 18 23:47 ..
+-rw-r--r--  1 root       root       6001 Jul 18 21:06 AMENDMENT_v1.2_MAIN_SEARCH_IMPROVEMENTS.md
+-rw-r--r-- 1 root root 6001 Jul 18 21:06 ./docs/AMENDMENT_v1.2_MAIN_SEARCH_IMPROVEMENTS.md
+total 28
+drwxr-xr-x  4 kellyb_dev kellyb_dev 4096 Jul 18 20:43 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev 4096 Jul 18 23:47 ..
+-rw-r--r--  1 kellyb_dev kellyb_dev  751 Jul 18 19:54 README.md
+-rw-r--r--  1 kellyb_dev kellyb_dev   20 Jul 18 19:54 devices.json
+-rw-r--r--  1 kellyb_dev kellyb_dev   33 Jul 18 20:43 settings.json
+drwxr-xr-x  2 kellyb_dev kellyb_dev 4096 Jul 18 19:54 types
+drwxr-xr-x  3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 web
+total 12
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:54 .
+drwxr-xr-x 4 kellyb_dev kellyb_dev 4096 Jul 18 20:43 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2354 Jul 18 20:43 router.d.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2354 Jul 18 20:43 ./.expo/types/router.d.ts
+-rw-r--r-- 1 kellyb_dev kellyb_dev 33 Jul 18 20:43 ./.expo/settings.json
+-rw-r--r-- 1 kellyb_dev kellyb_dev 751 Jul 18 19:54 ./.expo/README.md
+-rw-r--r-- 1 kellyb_dev kellyb_dev 20 Jul 18 19:54 ./.expo/devices.json
+total 12
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 .
+drwxr-xr-x 4 kellyb_dev kellyb_dev 4096 Jul 18 20:43 ..
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 cache
+total 12
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 ..
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 production
+total 12
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 ..
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 images
+total 12
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 ..
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 favicon
+total 12
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 ..
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:55 favicon-24272cdaeff82cc5facdaccd982a6f05b60c4504704bbf94c19a6388659880bb-contain-transparent
+total 12
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:55 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:55 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2919 Jul 18 19:55 favicon-48.png
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2919 Jul 18 19:55 ./.expo/web/cache/production/images/favicon/favicon-24272cdaeff82cc5facdaccd982a6f05b60c4504704bbf94c19a6388659880bb-contain-transparent/favicon-48.png
+-rw-r--r-- 1 kellyb_dev kellyb_dev 7856 Jul 18 19:50 ./README.md
+total 52
+drwxr-xr-x  8 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 12 kellyb_dev kellyb_dev 4096 Jul 18 23:47 ..
+-rw-r--r--  1 kellyb_dev kellyb_dev   21 Jul 18 19:50 HEAD
+drwxr-xr-x  2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 branches
+-rw-r--r--  1 kellyb_dev kellyb_dev  279 Jul 18 19:50 config
+-rw-r--r--  1 kellyb_dev kellyb_dev   73 Jul 18 19:50 description
+drwxr-xr-x  2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 hooks
+-rw-r--r--  1 kellyb_dev kellyb_dev 2864 Jul 18 19:50 index
+drwxr-xr-x  2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 info
+drwxr-xr-x  3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 logs
+drwxr-xr-x  4 kellyb_dev kellyb_dev 4096 Jul 18 19:50 objects
+-rw-r--r--  1 kellyb_dev kellyb_dev  112 Jul 18 19:50 packed-refs
+drwxr-xr-x  5 kellyb_dev kellyb_dev 4096 Jul 18 19:50 refs
+total 16
+drwxr-xr-x 4 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 8 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 info
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 pack
+total 8
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 4 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+total 156
+drwxr-xr-x 2 kellyb_dev kellyb_dev   4096 Jul 18 19:50 .
+drwxr-xr-x 4 kellyb_dev kellyb_dev   4096 Jul 18 19:50 ..
+-r--r--r-- 1 kellyb_dev kellyb_dev   2724 Jul 18 19:50 pack-f58d536d7004316cebe69990c7bea3ad88719b5d.idx
+-r--r--r-- 1 kellyb_dev kellyb_dev 140254 Jul 18 19:50 pack-f58d536d7004316cebe69990c7bea3ad88719b5d.pack
+-r--r--r-- 1 kellyb_dev kellyb_dev    288 Jul 18 19:50 pack-f58d536d7004316cebe69990c7bea3ad88719b5d.rev
+-r--r--r-- 1 kellyb_dev kellyb_dev 288 Jul 18 19:50 ./.git/objects/pack/pack-f58d536d7004316cebe69990c7bea3ad88719b5d.rev
+-r--r--r-- 1 kellyb_dev kellyb_dev 140254 Jul 18 19:50 ./.git/objects/pack/pack-f58d536d7004316cebe69990c7bea3ad88719b5d.pack
+-r--r--r-- 1 kellyb_dev kellyb_dev 2724 Jul 18 19:50 ./.git/objects/pack/pack-f58d536d7004316cebe69990c7bea3ad88719b5d.idx
+total 12
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 8 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev  240 Jul 18 19:50 exclude
+-rw-r--r-- 1 kellyb_dev kellyb_dev 240 Jul 18 19:50 ./.git/info/exclude
+total 72
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 8 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+-rwxr-xr-x 1 kellyb_dev kellyb_dev  478 Jul 18 19:50 applypatch-msg.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev  896 Jul 18 19:50 commit-msg.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 4726 Jul 18 19:50 fsmonitor-watchman.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev  189 Jul 18 19:50 post-update.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev  424 Jul 18 19:50 pre-applypatch.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 1643 Jul 18 19:50 pre-commit.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev  416 Jul 18 19:50 pre-merge-commit.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 1374 Jul 18 19:50 pre-push.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 4898 Jul 18 19:50 pre-rebase.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev  544 Jul 18 19:50 pre-receive.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 1492 Jul 18 19:50 prepare-commit-msg.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 2783 Jul 18 19:50 push-to-checkout.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 2308 Jul 18 19:50 sendemail-validate.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 3650 Jul 18 19:50 update.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 3650 Jul 18 19:50 ./.git/hooks/update.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 4898 Jul 18 19:50 ./.git/hooks/pre-rebase.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 2308 Jul 18 19:50 ./.git/hooks/sendemail-validate.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 896 Jul 18 19:50 ./.git/hooks/commit-msg.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 189 Jul 18 19:50 ./.git/hooks/post-update.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 478 Jul 18 19:50 ./.git/hooks/applypatch-msg.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 2783 Jul 18 19:50 ./.git/hooks/push-to-checkout.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 4726 Jul 18 19:50 ./.git/hooks/fsmonitor-watchman.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 416 Jul 18 19:50 ./.git/hooks/pre-merge-commit.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 1643 Jul 18 19:50 ./.git/hooks/pre-commit.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 424 Jul 18 19:50 ./.git/hooks/pre-applypatch.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 1374 Jul 18 19:50 ./.git/hooks/pre-push.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 1492 Jul 18 19:50 ./.git/hooks/prepare-commit-msg.sample
+-rwxr-xr-x 1 kellyb_dev kellyb_dev 544 Jul 18 19:50 ./.git/hooks/pre-receive.sample
+-rw-r--r-- 1 kellyb_dev kellyb_dev 112 Jul 18 19:50 ./.git/packed-refs
+total 16
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 8 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev  229 Jul 18 19:50 HEAD
+drwxr-xr-x 4 kellyb_dev kellyb_dev 4096 Jul 18 19:50 refs
+-rw-r--r-- 1 kellyb_dev kellyb_dev 229 Jul 18 19:50 ./.git/logs/HEAD
+total 16
+drwxr-xr-x 4 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 heads
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 remotes
+total 12
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 4 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev  229 Jul 18 19:50 main
+-rw-r--r-- 1 kellyb_dev kellyb_dev 229 Jul 18 19:50 ./.git/logs/refs/heads/main
+total 12
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 4 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 origin
+total 12
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev  229 Jul 18 19:50 HEAD
+-rw-r--r-- 1 kellyb_dev kellyb_dev 229 Jul 18 19:50 ./.git/logs/refs/remotes/origin/HEAD
+total 8
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 8 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev 21 Jul 18 19:50 ./.git/HEAD
+-rw-r--r-- 1 kellyb_dev kellyb_dev 73 Jul 18 19:50 ./.git/description
+-rw-r--r-- 1 kellyb_dev kellyb_dev 2864 Jul 18 19:50 ./.git/index
+total 20
+drwxr-xr-x 5 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 8 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 heads
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 remotes
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 tags
+total 12
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 5 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev   41 Jul 18 19:50 main
+-rw-r--r-- 1 kellyb_dev kellyb_dev 41 Jul 18 19:50 ./.git/refs/heads/main
+total 8
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 5 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+total 12
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 5 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 origin
+total 12
+drwxr-xr-x 2 kellyb_dev kellyb_dev 4096 Jul 18 19:50 .
+drwxr-xr-x 3 kellyb_dev kellyb_dev 4096 Jul 18 19:50 ..
+-rw-r--r-- 1 kellyb_dev kellyb_dev   30 Jul 18 19:50 HEAD
+-rw-r--r-- 1 kellyb_dev kellyb_dev 30 Jul 18 19:50 ./.git/refs/remotes/origin/HEAD
+-rw-r--r-- 1 kellyb_dev kellyb_dev 279 Jul 18 19:50 ./.git/config
+Total items: 104

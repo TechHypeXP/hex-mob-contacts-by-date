@@ -124,6 +124,7 @@ function calculateStats(contacts: Contact[]): ContactStats {
 }
 
 export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // This is a comment to trigger a change.
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(false);

@@ -87,6 +87,10 @@ export default function ContactsTab() {
     },
     content: {
       flex: 1,
+      paddingBottom: Platform.select({
+        android: 80, // Account for tab bar height
+        default: 65,
+      }),
     },
   });
 

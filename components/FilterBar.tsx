@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Filter, Users, Clock, Plus } from 'lucide-react-native';
+import { SlidersHorizontal, Users, Clock } from 'lucide-react-native';
 import { SearchFilters, ContactStats } from '@/types/contact';
 import { useTheme } from '@/hooks/useTheme';
 
@@ -25,7 +25,7 @@ export function FilterBar({
     if (!date) return 'Never';
     
     const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
+    const diffMs = now.getTime() - new Date(date).getTime();
     const diffMinutes = Math.floor(diffMs / (1000 * 60));
     
     if (diffMinutes < 1) return 'Just now';
@@ -40,8 +40,8 @@ export function FilterBar({
     return date.toLocaleDateString();
   };
 
-  const getLatestContactDate = () => {
-    // This would be calculated from actual contact data
+  const getLatestContactDate = (sourceType: string) => {
+    // Return the most recent modification date for contacts from this source
     // For now, using lastSyncTime as approximation
     return lastSyncTime;
   };
@@ -51,19 +51,19 @@ export function FilterBar({
       key: 'all', 
       label: 'All', 
       count: stats.total,
-      lastUpdated: getLatestContactDate(),
+      lastUpdated: getLatestContactDate('all'),
     },
     { 
       key: 'device', 
       label: 'Device', 
       count: stats.bySource.device || 0,
-      lastUpdated: getLatestContactDate(),
+      lastUpdated: getLatestContactDate('device'),
     },
     { 
       key: 'favorites', 
       label: 'Favorites', 
       count: stats.favorites,
-      lastUpdated: getLatestContactDate(),
+      lastUpdated: getLatestContactDate('favorites'),
     },
   ];
 
@@ -85,12 +85,12 @@ export function FilterBar({
     filterChip: {
       flexDirection: 'column',
       alignItems: 'center',
-      paddingHorizontal: 12,
-      paddingVertical: 8,
+      paddingHorizontal: 10,
+      paddingVertical: 6,
       marginRight: 8,
       borderRadius: 20,
       backgroundColor: colors.surfaceVariant,
-      minWidth: 80,
+      minWidth: 75,
     },
     activeFilterChip: {
       backgroundColor: colors.primary,
@@ -99,13 +99,13 @@ export function FilterBar({
       fontSize: 12,
       fontWeight: '600',
       color: colors.text,
-      marginBottom: 2,
+      marginBottom: 1,
     },
     activeFilterLabel: {
       color: '#FFFFFF',
     },
     filterCount: {
-      fontSize: 14,
+      fontSize: 13,
       fontWeight: 'bold',
       color: colors.primary,
     },
@@ -115,7 +115,7 @@ export function FilterBar({
     filterTime: {
       fontSize: 10,
       color: colors.textTertiary,
-      marginTop: 2,
+      marginTop: 1,
     },
     activeFilterTime: {
       color: 'rgba(255, 255, 255, 0.8)',
@@ -123,8 +123,8 @@ export function FilterBar({
     moreFiltersButton: {
       flexDirection: 'row',
       alignItems: 'center',
-      paddingHorizontal: 12,
-      paddingVertical: 8,
+      paddingHorizontal: 10,
+      paddingVertical: 6,
       borderRadius: 20,
       backgroundColor: colors.surfaceVariant,
       marginLeft: 8,
@@ -200,7 +200,7 @@ export function FilterBar({
           onPress={onFilterPress}
           activeOpacity={0.7}
         >
-          <Filter size={16} color={colors.primary} />
+          <SlidersHorizontal size={16} color={colors.primary} />
           <Text style={styles.moreFiltersText}>More</Text>
         </TouchableOpacity>
       </ScrollView>

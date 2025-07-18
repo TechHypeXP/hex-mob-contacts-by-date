@@ -94,8 +94,8 @@ export function ContactList({
   const keyExtractor = (item: Contact) => item.id;
 
   const getItemLayout = (_: any, index: number) => ({
-    length: 72, // Compact item height
-    offset: 72 * index,
+    length: 68, // Updated compact item height
+    offset: 68 * index,
     index,
   });
 

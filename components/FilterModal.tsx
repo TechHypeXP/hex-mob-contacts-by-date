@@ -120,29 +120,33 @@ export function FilterModal({
       borderTopWidth: 1,
       borderTopColor: colors.outline,
     },
-    actionButton: {
+    resetButton: {
       flex: 1,
       paddingVertical: 12,
       paddingHorizontal: 16,
       borderRadius: 8,
       alignItems: 'center',
       marginHorizontal: 4,
-    },
-    primaryButton: {
-      backgroundColor: colors.primary,
-    },
-    secondaryButton: {
       backgroundColor: colors.surfaceVariant,
+    },
+    applyButton: {
+      flex: 1,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      borderRadius: 8,
+      alignItems: 'center',
+      marginHorizontal: 4,
+      backgroundColor: colors.primary,
     },
     buttonText: {
       fontSize: 14,
       fontWeight: '600',
     },
-    primaryButtonText: {
-      color: '#FFFFFF',
-    },
-    secondaryButtonText: {
+    resetButtonText: {
       color: colors.text,
+    },
+    applyButtonText: {
+      color: '#FFFFFF',
     },
   });
 
@@ -244,18 +248,18 @@ export function FilterModal({
 
           <View style={styles.actions}>
             <TouchableOpacity 
-              style={[styles.actionButton, styles.secondaryButton]}
+              style={styles.resetButton}
               onPress={resetFilters}
               activeOpacity={0.7}
             >
-              <Text style={[styles.buttonText, styles.secondaryButtonText]}>Reset</Text>
+              <Text style={[styles.buttonText, styles.resetButtonText]}>Reset</Text>
             </TouchableOpacity>
             <TouchableOpacity 
-              style={[styles.actionButton, styles.primaryButton]}
+              style={styles.applyButton}
               onPress={onClose}
               activeOpacity={0.7}
             >
-              <Text style={[styles.buttonText, styles.primaryButtonText]}>Apply</Text>
+              <Text style={[styles.buttonText, styles.applyButtonText]}>Apply</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>

@@ -80,7 +80,6 @@ export function useContacts() {
 
       // Transform contacts to our format
       const transformedContacts: Contact[] = data.map((contact) => {
-        const now = new Date();
         return {
         id: contact.id || Date.now().toString(),
         name: contact.name || 'Unknown',
@@ -115,8 +114,8 @@ export function useContacts() {
           name: 'Device Contacts',
         },
         imageUri: contact.imageAvailable ? contact.image?.uri : undefined,
-        createdAt: contact.dates?.find(d => d.label === 'created')?.date || now,
-        modifiedAt: contact.dates?.find(d => d.label === 'modified')?.date || now,
+        createdAt: contact.dates?.find(d => d.label === 'created')?.date || new Date(contact.id ? parseInt(contact.id) : Date.now()),
+        modifiedAt: contact.dates?.find(d => d.label === 'modified')?.date || new Date(contact.id ? parseInt(contact.id) : Date.now()),
         tags: [],
         isFavorite: false,
       };
@@ -165,17 +164,21 @@ export function useContacts() {
 
     // Apply text search
     if (filters.query.trim()) {
-      const keywords = filters.query.toLowerCase().trim().split(/\s+/);
+      const keywords = filters.query.toLowerCase().trim().split(/\s+/).filter(k => k.length > 0);
       filtered = filtered.filter(contact => 
-        keywords.every(keyword => 
-          contact.name.toLowerCase().includes(keyword) ||
-          contact.firstName?.toLowerCase().includes(keyword) ||
-          contact.lastName?.toLowerCase().includes(keyword) ||
-          contact.jobTitle?.toLowerCase().includes(keyword) ||
-          contact.company?.toLowerCase().includes(keyword) ||
-          contact.tags.some(tag => tag.toLowerCase().includes(keyword)) ||
-          contact.phoneNumbers.some(phone => phone.number.includes(keyword)) ||
-          contact.emails.some(email => email.email.toLowerCase().includes(keyword))
+        keywords.every(keyword => {
+          const searchableText = [
+            contact.name,
+            contact.firstName || '',
+            contact.lastName || '',
+            contact.jobTitle || '',
+            contact.company || '',
+            ...contact.tags,
+            ...contact.phoneNumbers.map(p => p.number),
+            ...contact.emails.map(e => e.email),
+          ].join(' ').toLowerCase();
+          return searchableText.includes(keyword);
+        })
         )
       );
     }

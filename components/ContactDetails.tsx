@@ -15,14 +15,16 @@ import {
   X,
   Phone,
   Mail,
-  MessageCircle,
+  MessageCircle as SMS,
   MapPin,
   Building2,
   Calendar,
   Heart,
   ExternalLink,
+  MessageCircle,
 } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+import * as WebBrowser from 'expo-web-browser';
 import { Contact } from '@/types/contact';
 import { useTheme } from '@/hooks/useTheme';
 
@@ -66,6 +68,20 @@ export function ContactDetails({
       const canOpen = await Linking.canOpenURL(url);
       if (canOpen) {
         await Linking.openURL(url);
+      }
+    });
+  };
+
+  const handleWhatsApp = async (phoneNumber: string) => {
+    await handleAction(async () => {
+      const cleanNumber = phoneNumber.replace(/[^\d+]/g, '');
+      const url = `whatsapp://send?phone=${cleanNumber}`;
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        await Linking.openURL(url);
+      } else {
+        // Fallback to web WhatsApp
+        await WebBrowser.openBrowserAsync(`https://wa.me/${cleanNumber}`);
       }
     });
   };
@@ -369,7 +385,14 @@ export function ContactDetails({
                     onPress={() => handleSMS(phone.number)}
                     activeOpacity={0.7}
                   >
-                    <MessageCircle size={20} color={colors.primary} />
+                    <SMS size={20} color={colors.primary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={styles.actionButton}
+                    onPress={() => handleWhatsApp(phone.number)}
+                    activeOpacity={0.7}
+                  >
+                    <MessageCircle size={20} color={colors.success} />
                   </TouchableOpacity>
                 </View>
               ))}
@@ -475,8 +498,16 @@ export function ContactDetails({
                 onPress={() => handleSMS(contact.phoneNumbers[0].number)}
                 activeOpacity={0.8}
               >
-                <MessageCircle size={20} color="#FFFFFF" />
+                <SMS size={20} color="#FFFFFF" />
                 <Text style={styles.quickActionText}>Message</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.quickActionButton}
+                onPress={() => handleWhatsApp(contact.phoneNumbers[0].number)}
+                activeOpacity={0.8}
+              >
+                <MessageCircle size={20} color="#FFFFFF" />
+                <Text style={styles.quickActionText}>WhatsApp</Text>
               </TouchableOpacity>
             </View>
           )}

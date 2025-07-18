@@ -3,31 +3,28 @@ import { FlatList, View, Text, StyleSheet, RefreshControl, ActivityIndicator } f
 import { Contact } from '@/types/contact';
 import { ContactItem } from './ContactItem';
 import { useTheme } from '@/hooks/useTheme';
+import { ConfigService } from '@/src/config/ConfigService';
+import { useContacts } from '@/hooks/useContacts'; // Import the new useContacts hook
 
 interface ContactListProps {
-  contacts: Contact[];
-  hasMore: boolean;
   onContactPress: (contact: Contact) => void;
   onFavoriteToggle: (contactId: string) => void;
-  onRefresh: () => void;
-  onLoadMore: () => void;
-  refreshing: boolean;
-  loading: boolean;
-  loadingMore: boolean;
 }
 
-export function ContactList({ 
-  contacts, 
-  hasMore,
-  onContactPress, 
-  onFavoriteToggle, 
-  onRefresh,
-  onLoadMore,
-  refreshing,
-  loading,
-  loadingMore,
+export function ContactList({
+  onContactPress,
+  onFavoriteToggle,
 }: ContactListProps) {
   const { colors } = useTheme();
+  const {
+    contacts,
+    hasMore,
+    loadMoreContacts,
+    refreshContacts,
+    loading,
+    loadingMore,
+    refreshing, // Assuming refreshing is also provided by the context
+  } = useContacts();
 
   const styles = StyleSheet.create({
     container: {
@@ -77,7 +74,6 @@ export function ContactList({
       contact={item}
       onPress={() => onContactPress(item)}
       onFavoriteToggle={() => onFavoriteToggle(item.id)}
-      compact={true}
     />
   ), [onContactPress, onFavoriteToggle]);
 
@@ -94,16 +90,17 @@ export function ContactList({
   const keyExtractor = (item: Contact) => item.id;
 
   const getItemLayout = (_: any, index: number) => ({
-    length: 68, // Updated compact item height
-    offset: 68 * index,
+    length: ConfigService.get<number>('ui.layout.listItemHeight'),
+    offset: ConfigService.get<number>('ui.layout.listItemHeight') * index,
     index,
   });
 
   const handleEndReached = useCallback(() => {
     if (hasMore && !loadingMore) {
-      onLoadMore();
+      loadMoreContacts();
     }
-  }, [hasMore, loadingMore, onLoadMore]);
+  }, [hasMore, loadingMore, loadMoreContacts]);
+  
   if (loading && contacts.length === 0) {
     return (
       <View style={styles.loadingContainer}>
@@ -134,15 +131,13 @@ export function ContactList({
         ListFooterComponent={renderFooter}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
-        removeClippedSubviews={true}
-        maxToRenderPerBatch={20}
-        updateCellsBatchingPeriod={50}
-        initialNumToRender={25}
-        windowSize={15}
+        windowSize={ConfigService.get<number>('performance.virtualization.windowSize')}
+        initialNumToRender={ConfigService.get<number>('performance.virtualization.initialNumToRender')}
+        maxToRenderPerBatch={ConfigService.get<number>('performance.virtualization.maxToRenderPerBatch')}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={onRefresh}
+            onRefresh={refreshContacts}
             colors={[colors.primary]}
             tintColor={colors.primary}
           />

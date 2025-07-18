@@ -1,3 +1,22 @@
+# Changelog
+
+## [1.2.0] - 2025-07-19
+
+### Added
+- Frontend configuration system with ConfigService
+- Performance optimization settings
+- Component integration with configuration
+
+### Changed
+- ContactList uses configurable performance settings
+- useContacts uses configurable debounce delay
+- Replaced hardcoded values with configuration
+
+### Technical
+- Centralized configuration management
+- Type-safe configuration access
+- Environment-ready architecture
+
 # Contact Manager Pro - Changelog
 
 ## Version 1.2.0 - Bugfixes & Functional Stability

@@ -1,0 +1,56 @@
+import baseConfig from './frontend-config.json';
+import devConfig from './frontend-config.development.json';
+import stagingConfig from './frontend-config.staging.json';
+import prodConfig from './frontend-config.production.json';
+import { FrontendConfig } from './types';
+
+class ConfigService {
+  private static config: FrontendConfig;
+
+  private static detectEnvironment(): string {
+    if (process.env.NODE_ENV === 'development' || __DEV__) {
+      return 'development';
+    }
+    if (process.env.NODE_ENV === 'staging') {
+      return 'staging';
+    }
+    return 'production';
+  }
+
+  private static loadConfig(): FrontendConfig {
+    const env = this.detectEnvironment();
+    let currentConfig: FrontendConfig = baseConfig as FrontendConfig;
+
+    if (env === 'development') {
+      currentConfig = { ...currentConfig, ...devConfig };
+    } else if (env === 'staging') {
+      currentConfig = { ...currentConfig, ...stagingConfig };
+    } else if (env === 'production') {
+      currentConfig = { ...currentConfig, ...prodConfig };
+    }
+    return currentConfig;
+  }
+
+  static initialize() {
+    if (!ConfigService.config) {
+      ConfigService.config = ConfigService.loadConfig();
+    }
+  }
+
+  static get<T>(path: string): T {
+    if (!ConfigService.config) {
+      ConfigService.initialize();
+    }
+    return path.split('.').reduce((obj, key) => obj?.[key], ConfigService.config) as T;
+  }
+
+  static getApiEndpoint(endpoint: string): string {
+    const baseURL = this.get<string>('api.baseURL');
+    const path = this.get<string>(`api.endpoints.${endpoint}`);
+    return `${baseURL}${path}`;
+  }
+}
+
+ConfigService.initialize();
+
+export { ConfigService };

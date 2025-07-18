@@ -1,0 +1,22 @@
+{
+  "app": {
+    "name": "Contact Finder (Dev)",
+    "displayName": "Contact Date Finder (Dev)",
+    "version": "1.0.0-dev",
+    "buildNumber": "1-dev"
+  },
+  "api": {
+    "baseURL": "http://localhost:3000",
+    "timeout": 15000
+  },
+  "development": {
+    "enableDebugMode": true,
+    "enableHotReload": true,
+    "mockData": true
+  },
+  "logging": {
+    "level": "debug",
+    "enableConsole": true,
+    "enableFileLogging": true
+  }
+}

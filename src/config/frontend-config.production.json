@@ -1,0 +1,22 @@
+{
+  "app": {
+    "name": "Contact Finder",
+    "displayName": "Contact Date Finder",
+    "version": "1.0.0",
+    "buildNumber": "1"
+  },
+  "api": {
+    "baseURL": "https://api.contactfinder.com",
+    "timeout": 10000
+  },
+  "development": {
+    "enableDebugMode": false,
+    "enableHotReload": false,
+    "mockData": false
+  },
+  "logging": {
+    "level": "warn",
+    "enableConsole": false,
+    "enableFileLogging": true
+  }
+}

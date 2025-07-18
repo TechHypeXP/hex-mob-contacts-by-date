@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "Contact Date Finder",
+    "version": "1.2.0",
+    "buildNumber": "1"
+  },
+  "performance": {
+    "virtualization": {
+      "enabled": true,
+      "windowSize": 10,
+      "initialNumToRender": 20,
+      "maxToRenderPerBatch": 10
+    },
+    "debouncing": {
+      "searchDelay": 300
+    }
+  },
+  "ui": {
+    "theme": {
+      "defaultMode": "system",
+      "primaryColor": "#007AFF"
+    },
+    "layout": {
+      "listItemHeight": 72
+    }
+  }
+}

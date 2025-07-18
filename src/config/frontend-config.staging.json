@@ -1,0 +1,22 @@
+{
+  "app": {
+    "name": "Contact Finder (Staging)",
+    "displayName": "Contact Date Finder (Staging)",
+    "version": "1.0.0-staging",
+    "buildNumber": "1-staging"
+  },
+  "api": {
+    "baseURL": "https://staging-api.contactfinder.com",
+    "timeout": 10000
+  },
+  "development": {
+    "enableDebugMode": false,
+    "enableHotReload": false,
+    "mockData": false
+  },
+  "logging": {
+    "level": "info",
+    "enableConsole": true,
+    "enableFileLogging": true
+  }
+}

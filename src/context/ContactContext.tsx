@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import * as Contacts from 'expo-contacts';
 import { Contact, ContactStats, SearchFilters } from '@/types/contact';
-import Fuse from 'fuse.js';
 
 // Configuration constants for performance optimization
 import { ConfigService } from '@/src/config/ConfigService';
@@ -31,26 +30,6 @@ interface ContactContextType {
 }
 
 const ContactContext = createContext<ContactContextType | undefined>(undefined);
-
-// Fuse.js configuration for multi-keyword search
-const FUSE_OPTIONS = {
-  keys: [
-    { name: 'name', weight: 0.4 },
-    { name: 'firstName', weight: 0.3 },
-    { name: 'lastName', weight: 0.3 },
-    { name: 'phoneNumbers.number', weight: 0.2 },
-    { name: 'emails.email', weight: 0.1 },
-    { name: 'company', weight: 0.1 },
-    { name: 'jobTitle', weight: 0.1 },
-    { name: 'notes', weight: 0.05 },
-  ],
-  threshold: 0.3,
-  distance: 100,
-  includeScore: true,
-  ignoreLocation: true,
-  tokenize: true,
-  findAllMatches: true,
-};
 
 /**
  * Transforms Expo contact to our Contact interface
@@ -123,6 +102,31 @@ function calculateStats(contacts: Contact[]): ContactStats {
   return stats;
 }
 
+/**
+ * Simple but effective search function for multi-keyword search
+ */
+function searchContacts(contacts: Contact[], query: string): Contact[] {
+  if (!query.trim()) return contacts;
+  
+  const keywords = query.toLowerCase().trim().split(/\s+/);
+  
+  return contacts.filter(contact => {
+    const searchableText = [
+      contact.name,
+      contact.firstName,
+      contact.lastName,
+      contact.company,
+      contact.jobTitle,
+      contact.notes,
+      ...contact.phoneNumbers.map(p => p.number),
+      ...contact.emails.map(e => e.email),
+    ].filter(Boolean).join(' ').toLowerCase();
+    
+    // All keywords must be found (AND logic)
+    return keywords.every(keyword => searchableText.includes(keyword));
+  });
+}
+
 export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
@@ -152,14 +156,6 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const allContactsRef = useRef<Contact[]>([]); // To hold all contacts for filtering/searching
 
   /**
-   * Builds search index for fast multi-keyword search
-   */
-  const buildSearchIndex = useCallback((contacts: Contact[]) => {
-    if (contacts.length === 0) return null;
-    return new Fuse(contacts, FUSE_OPTIONS);
-  }, []);
-
-  /**
    * Applies filters to contacts with incremental loading support
    */
   const applyFilters = useCallback((allContacts: Contact[], currentFilters: SearchFilters) => {
@@ -177,15 +173,7 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     // Apply search query with multi-keyword support (AND/OR)
     if (currentFilters.query.trim()) {
-      const query = currentFilters.query.trim();
-      const isAndSearch = query.toLowerCase().includes(' and ');
-
-      const fuseOptions = { ...FUSE_OPTIONS, matchAllTokens: isAndSearch };
-      const fuse = new Fuse(allContacts, fuseOptions); // Re-initialize Fuse with dynamic options
-      
-      const searchResults = fuse.search(query.replace(/ and /gi, ' ')); // Remove 'AND' for Fuse search
-      const searchIds = new Set(searchResults.map(result => result.item.id));
-      filtered = filtered.filter(contact => searchIds.has(contact.id));
+      filtered = searchContacts(filtered, currentFilters.query);
     }
 
     // Apply sorting
@@ -297,7 +285,7 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setLoading(false);
       isLoadingRef.current = false;
     }
-  }, [buildSearchIndex, loadRemainingInBackground]);
+  }, [loadRemainingInBackground]);
 
   /**
    * Loads more contacts (for pagination)
@@ -399,7 +387,7 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setLoading(false);
       isLoadingRef.current = false;
     }
-  }, [buildSearchIndex, loadRemainingInBackground]);
+  }, [loadRemainingInBackground]);
 
   /**
    * Toggles favorite status for a contact
@@ -410,8 +398,6 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (contactIndex !== -1) {
       allContactsRef.current[contactIndex].isFavorite = !allContactsRef.current[contactIndex].isFavorite;
       setStats(calculateStats(allContactsRef.current));
-      // Rebuild search index if needed
-      // globalSearchIndex = buildSearchIndex(allContactsRef.current); // No longer global
     }
 
     // Update local state (contacts displayed)

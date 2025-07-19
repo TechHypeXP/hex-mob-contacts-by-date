@@ -31,8 +31,7 @@
       }
     },
     "android": {
-      "package": "com.hex.mobcontactsbydate",
-      "versionCode": 2
+      "package": "com.hex.mobcontactsbydate"
     }
   }
 }

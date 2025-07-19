@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import * as Contacts from 'expo-contacts';
-import { Contact, ContactStats, SearchFilters } from 'types/contact';
+import { Contact, ContactStats, SearchFilters } from '@/types/contact';
 import Fuse from 'fuse.js';
 
 interface ContactContextType {
@@ -16,36 +16,52 @@ interface ContactContextType {
   toggleFavorite: (contactId: string) => Promise<void>;
   updateFilters: (newFilters: Partial<SearchFilters>) => void;
 }
-
 const ContactContext = createContext<ContactContextType | undefined>(undefined);
 
+// CORRECTED FUSE.JS OPTIONS FOR "AND" SEARCH
 const FUSE_OPTIONS = {
   keys: ['name', 'phoneNumbers.number', 'emails.email', 'company', 'jobTitle'],
-  threshold: 0.3,
-  ignoreLocation: true,
+  threshold: 0.4,
+  includeScore: true,
+  useExtendedSearch: true, // Enables advanced search operators
 };
 
-function transformExpoContact(expoContact: Contacts.Contact): Contact {
-    const getValidDate = (timestamp: number | undefined | null): Date => {
-        if (timestamp && timestamp > 0) {
-            return new Date(timestamp > 1000000000000 ? timestamp : timestamp * 1000);
-        }
-        return new Date(1970, 1, 1);
-    };
-    const createdAt = getValidDate((expoContact as any).creationDate);
-    const modifiedAt = getValidDate((expoContact as any).modificationDate);
-    return {
-        id: expoContact.id || '', name: expoContact.name || 'Unknown',
-        firstName: expoContact.firstName, lastName: expoContact.lastName,
-        phoneNumbers: (expoContact.phoneNumbers || []).map((p, i) => ({ id: p.id || `${expoContact.id}-p${i}`, number: p.number || '', label: p.label || 'phone' })),
-        emails: (expoContact.emails || []).map((e, i) => ({ id: e.id || `${expoContact.id}-e${i}`, email: e.email || '', label: e.label || 'email' })),
-        addresses: [], jobTitle: expoContact.jobTitle, company: expoContact.company, notes: expoContact.note,
-        source: { type: 'device', name: 'Device' },
-        imageUri: expoContact.imageAvailable ? expoContact.image?.uri : undefined,
-        createdAt: createdAt > modifiedAt ? modifiedAt : createdAt,
-        modifiedAt: modifiedAt,
-        tags: [], isFavorite: false,
-    };
+// REWRITTEN DATA TRANSFORMATION
+function transformExpoContact(rawContact: Contacts.Contact): Contact {
+  const getValidDate = (timestamp: number | undefined | null): Date => {
+    if (!timestamp || timestamp <= 0) return new Date(1980, 0, 1);
+    return new Date(timestamp > 1000000000000 ? timestamp : timestamp * 1000);
+  };
+
+  const getSourceType = (source: any): 'google' | 'sim' | 'exchange' | 'device' | 'other' => {
+    const name = source?.name?.toLowerCase() || '';
+    if (name.includes('gmail')) return 'google';
+    if (name.includes('sim')) return 'sim';
+    if (name.includes('exchange')) return 'exchange';
+    return 'device';
+  };
+
+  const sourceInfo = (rawContact as any).source;
+  const sourceType = getSourceType(sourceInfo);
+
+  return {
+    id: rawContact.id || '',
+    name: rawContact.name || 'No Name',
+    firstName: rawContact.firstName,
+    lastName: rawContact.lastName,
+    phoneNumbers: (rawContact.phoneNumbers || []).map((p, i) => ({ id: p.id || `${rawContact.id}-p${i}`, number: p.number || '', label: p.label || 'phone' })),
+    emails: (rawContact.emails || []).map((e, i) => ({ id: e.id || `${rawContact.id}-e${i}`, email: e.email || '', label: e.label || 'email' })),
+    addresses: (rawContact.addresses || []).map(a => ({ ...a, id: a.id || '' })),
+    jobTitle: rawContact.jobTitle,
+    company: rawContact.company,
+    notes: rawContact.note,
+    source: { type: sourceType, name: sourceInfo?.name || 'Device' },
+    imageUri: rawContact.imageAvailable ? rawContact.image?.uri : undefined,
+    createdAt: getValidDate((rawContact as any).creationDate),
+    modifiedAt: getValidDate((rawContact as any).modificationDate),
+    tags: [],
+    isFavorite: false,
+  };
 }
 
 export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -65,8 +81,7 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
     try {
       const { status } = await Contacts.requestPermissionsAsync();
       if (status !== 'granted') {
-        setError('Contact permissions are required to use this app.');
-        setHasPermissions(false); setAllContacts([]); return;
+        setError('Contact permissions are required.'); setHasPermissions(false); setAllContacts([]); return;
       }
       setHasPermissions(true);
       const { data } = await Contacts.getContactsAsync({ fields: Object.values(Contacts.Fields) });
@@ -74,43 +89,33 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setAllContacts(transformed);
       fuseRef.current = new Fuse(transformed, FUSE_OPTIONS);
       setLastSyncTime(new Date());
-    } catch (e) {
-      setError('Failed to load contacts.');
-    } finally {
-      if (!refreshing) setLoading(false);
-    }
+    } catch (e) { setError('Failed to load contacts.');
+    } finally { if (!refreshing) setLoading(false); }
   }, [refreshing]);
 
   useEffect(() => { loadContacts(); }, [loadContacts]);
 
-  const refreshContacts = useCallback(async () => {
-    setRefreshing(true);
-    await loadContacts();
-    setRefreshing(false);
-  }, [loadContacts]);
-
-  const toggleFavorite = useCallback(async (contactId: string) => {
-    setFavorites(prev => ({ ...prev, [contactId]: !prev[contactId] }));
-  }, []);
-
-  const updateFilters = useCallback((newFilters: Partial<SearchFilters>) => {
-    setFilters(prev => ({ ...prev, ...newFilters }));
-  }, []);
+  const refreshContacts = useCallback(async () => { setRefreshing(true); await loadContacts(); setRefreshing(false); }, [loadContacts]);
+  const toggleFavorite = useCallback(async (contactId: string) => { setFavorites((prev: Record<string, boolean>) => ({ ...prev, [contactId]: !prev[contactId] })); }, []);
+  const updateFilters = useCallback((newFilters: Partial<SearchFilters>) => { setFilters((prev: SearchFilters) => ({ ...prev, ...newFilters })); }, []);
 
   const filteredContacts = useMemo(() => {
-    let processed = filters.query.trim() ? (fuseRef.current?.search(filters.query).map(r => r.item) || []) : [...allContacts];
-    if (filters.showFavoritesOnly) {
-        processed = processed.filter(c => favorites[c.id]);
-    }
-    processed.forEach(c => c.isFavorite = !!favorites[c.id]);
-    processed.sort((a, b) => {
-      const aVal = a[filters.sortBy]; const bVal = b[filters.sortBy];
-      const order = filters.sortOrder === 'asc' ? 1 : -1;
-      if (aVal instanceof Date && bVal instanceof Date) return (aVal.getTime() - bVal.getTime()) * order;
-      if (typeof aVal === 'string' && typeof bVal === 'string') return aVal.localeCompare(bVal) * order;
-      return 0;
-    });
-    return processed;
+      // This query now enables AND search. e.g., "'shots 'rehab"
+      const fuseQuery = filters.query.trim().split(' ').map(term => `'${term}`).join(' ');
+      
+      let processed = fuseQuery ? (fuseRef.current?.search(fuseQuery).map(r => r.item) || []) : [...allContacts];
+      
+      // ... rest of the filtering and sorting logic
+      if (filters.showFavoritesOnly) processed = processed.filter(c => favorites[c.id]);
+      processed.forEach(c => c.isFavorite = !!favorites[c.id]);
+      processed.sort((a, b) => {
+        const aVal = a[filters.sortBy]; const bVal = b[filters.sortBy];
+        const order = filters.sortOrder === 'asc' ? 1 : -1;
+        if (aVal instanceof Date && bVal instanceof Date) return (aVal.getTime() - bVal.getTime()) * order;
+        if (typeof aVal === 'string' && typeof bVal === 'string') return aVal.localeCompare(bVal) * order;
+        return 0;
+      });
+      return processed;
   }, [allContacts, filters, favorites]);
 
   const stats = useMemo((): ContactStats => allContacts.reduce((acc, c) => {
@@ -125,6 +130,3 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
 export const useContacts = () => {
   const context = useContext(ContactContext);
-  if (!context) throw new Error('useContacts must be used within a ContactProvider');
-  return context;
-};

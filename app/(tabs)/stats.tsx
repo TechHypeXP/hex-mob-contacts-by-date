@@ -7,7 +7,7 @@ import { ChartBar as BarChart3, TrendingUp, Users, Database } from 'lucide-react
 
 export default function StatsTab() {
   const { colors, isDark } = useTheme();
-  const { stats, allContacts, lastSyncTime } = useContacts();
+  const { stats, allContacts = [], lastSyncTime } = useContacts();
 
   const styles = StyleSheet.create({
     container: {

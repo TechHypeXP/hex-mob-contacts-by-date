@@ -35,7 +35,6 @@ const formatDate = (date: Date) => {
     }).format(date);
 };
 
-   
 interface ContactDetailsProps {
   contact: Contact | null;
   visible: boolean;
@@ -84,7 +83,7 @@ export function ContactDetails({ contact, visible, onClose, onFavoriteToggle }: 
             <Text style={styles.headerTitle}>Contact Details</Text>
             <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity style={{ padding: 8 }} onPress={onFavoriteToggle}>
-                    <Heart size={24} color={contact.isFavorite ? colors.error : colors.textSecondary} fill={contact.isFavorite ? colors.error : 'transparent'} 
+                    <Heart size={24} color={contact.isFavorite ? colors.error : colors.textSecondary} fill={contact.isFavorite ? colors.error : 'transparent'}
 />
                 </TouchableOpacity>
                 <TouchableOpacity style={{ padding: 8, marginLeft: 8 }} onPress={onClose}>
@@ -96,7 +95,7 @@ export function ContactDetails({ contact, visible, onClose, onFavoriteToggle }: 
             <View style={styles.profileSection}>
 
                 <View style={styles.avatar}>
-                    {contact.imageUri ? <Image source={{ uri: contact.imageUri }} style={styles.avatarImage} /> : <Text 
+                    {contact.imageUri ? <Image source={{ uri: contact.imageUri }} style={styles.avatarImage} /> : <Text
 style={styles.avatarText}>{getInitials(contact.name)}</Text>}
                 </View>
                 <Text style={styles.name}>{contact.name}</Text>
@@ -134,21 +133,17 @@ style={styles.avatarText}>{getInitials(contact.name)}</Text>}
 }
 
 const getStyles = (colors: any) => StyleSheet.create({
-    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, borderBottomWidth: 1, borderBottomColor: 
-colors.outline },
+    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, borderBottomWidth: 1, borderBottomColor: colors.outline, marginHorizontal: 16 },
     headerTitle: { fontSize: 18, fontWeight: '600', color: colors.text },
     profileSection: { alignItems: 'center', padding: 24, backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.outline },
-    avatar: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.surfaceVariant, alignItems: 'center', justifyContent: 'center', 
-marginBottom: 16 },
+    avatar: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.surfaceVariant, alignItems: 'center', justifyContent: 'center', marginBottom: 16 },
     avatarImage: { width: 80, height: 80, borderRadius: 40 },
     avatarText: { fontSize: 24, fontWeight: '600', color: colors.primary },
     name: { fontSize: 24, fontWeight: '600', color: colors.text, textAlign: 'center', marginBottom: 4 },
     jobTitle: { fontSize: 16, color: colors.textSecondary, textAlign: 'center' },
     section: { backgroundColor: colors.surface, marginTop: 8, paddingVertical: 8 },
-    sectionTitle: { fontSize: 14, fontWeight: '600', color: colors.textSecondary, paddingHorizontal: 16, paddingVertical: 8, textTransform: 
-'uppercase' },
-    itemRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: 
-colors.outline },
+    sectionTitle: { fontSize: 14, fontWeight: '600', color: colors.textSecondary, paddingHorizontal: 16, paddingVertical: 8, textTransform: 'uppercase' },
+    itemRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.outline },
     itemValue: { fontSize: 16, color: colors.text, marginBottom: 2 },
     itemLabel: { fontSize: 14, color: colors.textSecondary, textTransform: 'capitalize' },
 });

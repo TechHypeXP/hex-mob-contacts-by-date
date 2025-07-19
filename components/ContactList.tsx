@@ -35,6 +35,6 @@ export function ContactList({ contacts, onContactPress, onFavoriteToggle, onRefr
   );
 }
 const getStyles = (colors: any) => StyleSheet.create({
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 50 },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 50, marginHorizontal: 16 },
   emptyText: { fontSize: 16, color: colors.textSecondary },
 });

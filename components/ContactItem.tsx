@@ -40,6 +40,55 @@ export function ContactItem({ contact, onPress, onFavoriteToggle }: ContactItemP
     Linking.openURL(`whatsapp://send?phone=${cleanNumber}`);
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.outline, // Use dynamic color
+      marginHorizontal: 16, // Add horizontal margin
+    },
+    avatarContainer: {
+      marginRight: 16,
+    },
+    avatar: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    avatarText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    infoContainer: {
+      flex: 1,
+    },
+    name: {
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    phone: {
+      fontSize: 13,
+      marginTop: 2,
+    },
+    date: {
+      fontSize: 11,
+      marginTop: 2,
+    },
+    actions: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    actionButton: {
+      marginLeft: 16,
+      padding: 4,
+    },
+  });
+
   return (
     <TouchableOpacity style={styles.container} onPress={() => onPress(contact)} activeOpacity={0.7}>
       <View style={styles.avatarContainer}>
@@ -82,51 +131,3 @@ export function ContactItem({ contact, onPress, onFavoriteToggle }: ContactItemP
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0', // This should be dynamic from colors.outline
-  },
-  avatarContainer: {
-    marginRight: 16,
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  avatarText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  infoContainer: {
-    flex: 1,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  phone: {
-    fontSize: 13,
-    marginTop: 2,
-  },
-  date: {
-    fontSize: 11,
-    marginTop: 2,
-  },
-  actions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  actionButton: {
-    marginLeft: 16,
-    padding: 4,
-  },
-});

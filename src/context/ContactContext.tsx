@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import * as Contacts from 'expo-contacts';
 import { Contact, ContactStats, SearchFilters } from '@/types/contact';
 import Fuse from 'fuse.js';
+import { Platform } from 'react-native';
 
 interface ContactContextType {
   filteredContacts: Contact[];
@@ -16,17 +17,16 @@ interface ContactContextType {
   toggleFavorite: (contactId: string) => Promise<void>;
   updateFilters: (newFilters: Partial<SearchFilters>) => void;
 }
+
 const ContactContext = createContext<ContactContextType | undefined>(undefined);
 
-// CORRECTED FUSE.JS OPTIONS FOR "AND" SEARCH
 const FUSE_OPTIONS = {
   keys: ['name', 'phoneNumbers.number', 'emails.email', 'company', 'jobTitle'],
   threshold: 0.4,
   includeScore: true,
-  useExtendedSearch: true, // Enables advanced search operators
+  useExtendedSearch: true,
 };
 
-// REWRITTEN DATA TRANSFORMATION
 function transformExpoContact(rawContact: Contacts.Contact): Contact {
   const getValidDate = (timestamp: number | undefined | null): Date => {
     if (!timestamp || timestamp <= 0) return new Date(1980, 0, 1);
@@ -35,7 +35,7 @@ function transformExpoContact(rawContact: Contacts.Contact): Contact {
 
   const getSourceType = (source: any): 'google' | 'sim' | 'exchange' | 'device' | 'other' => {
     const name = source?.name?.toLowerCase() || '';
-    if (name.includes('gmail')) return 'google';
+    if (name.includes('gmail') || name.includes('google')) return 'google';
     if (name.includes('sim')) return 'sim';
     if (name.includes('exchange')) return 'exchange';
     return 'device';
@@ -43,6 +43,8 @@ function transformExpoContact(rawContact: Contacts.Contact): Contact {
 
   const sourceInfo = (rawContact as any).source;
   const sourceType = getSourceType(sourceInfo);
+  const createdAt = getValidDate((rawContact as any).creationDate);
+  const modifiedAt = getValidDate((rawContact as any).modificationDate);
 
   return {
     id: rawContact.id || '',
@@ -55,15 +57,14 @@ function transformExpoContact(rawContact: Contacts.Contact): Contact {
     jobTitle: rawContact.jobTitle,
     company: rawContact.company,
     notes: rawContact.note,
-    source: { type: sourceType, name: sourceInfo?.name || 'Device' },
+    source: { type: sourceType, name: sourceInfo?.name || (Platform.OS === 'ios' ? 'iCloud' : 'Device') },
     imageUri: rawContact.imageAvailable ? rawContact.image?.uri : undefined,
-    createdAt: getValidDate((rawContact as any).creationDate),
-    modifiedAt: getValidDate((rawContact as any).modificationDate),
+    createdAt: createdAt,
+    modifiedAt: modifiedAt,
     tags: [],
     isFavorite: false,
   };
 }
-
 export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [allContacts, setAllContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,33 +101,47 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const updateFilters = useCallback((newFilters: Partial<SearchFilters>) => { setFilters((prev: SearchFilters) => ({ ...prev, ...newFilters })); }, []);
 
   const filteredContacts = useMemo(() => {
-      // This query now enables AND search. e.g., "'shots 'rehab"
-      const fuseQuery = filters.query.trim().split(' ').map(term => `'${term}`).join(' ');
-      
-      let processed = fuseQuery ? (fuseRef.current?.search(fuseQuery).map(r => r.item) || []) : [...allContacts];
-      
-      // ... rest of the filtering and sorting logic
-      if (filters.showFavoritesOnly) processed = processed.filter(c => favorites[c.id]);
-      processed.forEach(c => c.isFavorite = !!favorites[c.id]);
-      processed.sort((a, b) => {
-        const aVal = a[filters.sortBy]; const bVal = b[filters.sortBy];
-        const order = filters.sortOrder === 'asc' ? 1 : -1;
-        if (aVal instanceof Date && bVal instanceof Date) return (aVal.getTime() - bVal.getTime()) * order;
-        if (typeof aVal === 'string' && typeof bVal === 'string') return aVal.localeCompare(bVal) * order;
-        return 0;
-      });
-      return processed;
+    const fuseQuery = filters.query.trim().split(' ').map(term => `'${term}`).join(' ');
+    let processed = fuseQuery ? (fuseRef.current?.search(fuseQuery).map(r => r.item) || []) : [...allContacts];
+    if (filters.source) {
+      processed = processed.filter(c => c.source.type === filters.source);
+    }
+    if (filters.showFavoritesOnly) {
+      processed = processed.filter(c => favorites[c.id]);
+    }
+    processed.forEach(c => c.isFavorite = !!favorites[c.id]);
+    processed.sort((a, b) => {
+      const aVal = a[filters.sortBy]; const bVal = b[filters.sortBy];
+      const order = filters.sortOrder === 'asc' ? 1 : -1;
+      if (aVal instanceof Date && bVal instanceof Date) return (aVal.getTime() - bVal.getTime()) * order;
+      if (typeof aVal === 'string' && typeof bVal === 'string') return aVal.localeCompare(bVal) * order;
+      return 0;
+    });
+    return processed;
   }, [allContacts, filters, favorites]);
 
-  const stats = useMemo((): ContactStats => allContacts.reduce((acc, c) => {
-    acc.total++; if (c.imageUri) acc.withPhotos++;
-    acc.bySource[c.source.type] = (acc.bySource[c.source.type] || 0) + 1;
-    return acc;
-  }, { total: 0, bySource: {}, favorites: Object.values(favorites).filter(Boolean).length, withPhotos: 0 }), [allContacts, favorites]);
+  const stats = useMemo((): ContactStats => {
+    const initialStats: ContactStats = {
+      total: 0,
+      bySource: {},
+      favorites: Object.values(favorites).filter(Boolean).length,
+      withPhotos: 0,
+    };
+
+    return allContacts.reduce((acc, c) => {
+      acc.total++;
+      if (c.imageUri) acc.withPhotos++;
+      const sourceType = c.source.type;
+      acc.bySource[sourceType] = (acc.bySource[sourceType] || 0) + 1;
+      return acc;
+    }, initialStats);
+  }, [allContacts, favorites]);
 
   const value = { filteredContacts, loading, refreshing, error, filters, stats, lastSyncTime, hasPermissions, refreshContacts, toggleFavorite, updateFilters };
   return <ContactContext.Provider value={value}>{children}</ContactContext.Provider>;
 };
-
 export const useContacts = () => {
   const context = useContext(ContactContext);
+  if (!context) throw new Error('useContacts must be used within a ContactProvider');
+  return context;
+};

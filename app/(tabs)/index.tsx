@@ -50,7 +50,7 @@ export default function ContactsTab() {
   );
 }
 
-const getStyles = (colors) => StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     content: { flex: 1, paddingBottom: 65 },
     centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },

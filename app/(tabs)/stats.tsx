@@ -4,6 +4,7 @@ import { StatsCard } from '@/components/StatsCard';
 import { useContacts } from '@/hooks/useContacts';
 import { useTheme } from '@/hooks/useTheme';
 import { ChartBar as BarChart3, TrendingUp, Users, Database } from 'lucide-react-native';
+import { Contact } from '@/types/contact';
 
 export default function StatsTab() {
   const { colors, isDark } = useTheme();
@@ -111,10 +112,10 @@ export default function StatsTab() {
     },
   });
 
-  const contactsWithPhotos = allContacts.filter(c => c.imageUri);
-  const contactsWithEmails = allContacts.filter(c => c.emails.length > 0);
-  const contactsWithAddresses = allContacts.filter(c => c.addresses.length > 0);
-  const contactsWithCompany = allContacts.filter(c => c.company);
+  const contactsWithPhotos = allContacts.filter((c: Contact) => c.imageUri);
+  const contactsWithEmails = allContacts.filter((c: Contact) => c.emails.length > 0);
+  const contactsWithAddresses = allContacts.filter((c: Contact) => c.addresses.length > 0);
+  const contactsWithCompany = allContacts.filter((c: Contact) => c.company);
 
   const formatSyncTime = (date: Date | null) => {
     if (!date) return 'Never synced';

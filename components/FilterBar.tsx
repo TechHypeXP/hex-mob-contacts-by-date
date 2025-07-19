@@ -4,7 +4,7 @@ import { SlidersHorizontal } from 'lucide-react-native';
 import { useTheme } from '@/hooks/useTheme';
 import { useContacts } from '@/hooks/useContacts';
 
-interface Props { onFilterPress: () => void; onSourceFilter: (source: string | undefined) => void; }
+interface Props { activeSource?: string; onFilterPress: () => void; onSourceFilter: (source: string | undefined) => void; }
 
 export function FilterBar({ onFilterPress, onSourceFilter }: Props) {
     const { colors } = useTheme();

@@ -16,6 +16,8 @@ interface ContactContextType {
   refreshContacts: () => Promise<void>;
   toggleFavorite: (contactId: string) => Promise<void>;
   updateFilters: (newFilters: Partial<SearchFilters>) => void;
+  loadContacts: () => Promise<void>;
+  allContacts: Contact[];
 }
 
 const ContactContext = createContext<ContactContextType | undefined>(undefined);
@@ -137,7 +139,7 @@ export const ContactProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }, initialStats);
   }, [allContacts, favorites]);
 
-  const value = { filteredContacts, loading, refreshing, error, filters, stats, lastSyncTime, hasPermissions, refreshContacts, toggleFavorite, updateFilters };
+  const value = { filteredContacts, loading, refreshing, error, filters, stats, lastSyncTime, hasPermissions, refreshContacts, toggleFavorite, updateFilters, loadContacts, allContacts };
   return <ContactContext.Provider value={value}>{children}</ContactContext.Provider>;
 };
 export const useContacts = () => {
